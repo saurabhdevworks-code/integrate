@@ -5315,65 +5315,6 @@ console.log('Emails found:', searchRes.output);`}
                                     </button>
                                   </div>
                                 </div>
-
-                                {/* Parameters & Test Action Row */}
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, paddingTop: 6, borderTop: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #1e293b', flexWrap: 'wrap' }}>
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-                                    {schemaParams.length > 0 && schemaParams.map(param => (
-                                      <span
-                                        key={param.name}
-                                        style={{
-                                          fontSize: 11,
-                                          fontFamily: 'monospace',
-                                          padding: '2px 7px',
-                                          borderRadius: 4,
-                                          background: theme === 'light' ? '#ffffff' : '#0d1522',
-                                          border: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #273447',
-                                          color: theme === 'light' ? '#374151' : '#cbd5e1'
-                                        }}
-                                        title={param.description}
-                                      >
-                                        {param.name}:{param.type}
-                                        {param.required && <span style={{ color: '#ef4444', fontWeight: 700 }}>*</span>}
-                                      </span>
-                                    ))}
-                                  </div>
-
-                                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                    <span
-                                      style={{
-                                        fontSize: 10,
-                                        fontWeight: 700,
-                                        padding: '3px 8px',
-                                        borderRadius: 4,
-                                        letterSpacing: '0.4px',
-                                        textTransform: 'uppercase',
-                                        background: isHighRisk ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)',
-                                        color: isHighRisk ? '#ef4444' : '#10b981',
-                                        border: `1px solid ${isHighRisk ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`
-                                      }}
-                                    >
-                                      {isHighRisk ? 'Approval Required' : 'Safe / Read'}
-                                    </span>
-
-                                    <button
-                                      type="button"
-                                      className="primary"
-                                      style={{
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        gap: 6,
-                                        fontSize: 11,
-                                        fontWeight: 600,
-                                        padding: '6px 14px',
-                                        borderRadius: 6
-                                      }}
-                                      onClick={() => openRunToolModal(tool)}
-                                    >
-                                      <Play size={11} /> Test Action
-                                    </button>
-                                  </div>
-                                </div>
                               </div>
                             )}
                           </div>
