@@ -2195,3 +2195,27 @@ header {
 [data-theme="light"] .notice p {
   color: #007007 !important;
 }
+
+/* Landing Page Creative Technical Watermarks & Engineering Grid */
+@keyframes watermarkPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+.watermark-pulse {
+  animation: watermarkPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (max-width: 1080px) {
+  .hero-watermark-left,
+  .hero-watermark-right {
+    display: none !important;
+  }
+}
+
