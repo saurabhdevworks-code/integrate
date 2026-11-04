@@ -526,6 +526,193 @@ export function getDefaultToolsForApp(integ: Integration): ToolDefinition[] {
   const s = (integ.slug || '').toLowerCase();
   const name = integ.name;
 
+  if (s.includes('gmail')) {
+    return [
+      {
+        id: 'gmail-1',
+        slug: 'gmail.modify_email_labels',
+        name: 'Modify email labels',
+        description: "Adds and/or removes specified Gmail labels for a message; ensure `message_id` and all `label_ids` are valid (use 'listLabels' for custom label IDs).",
+        inputSchema: '{"type":"object","properties":{"message_id":{"type":"string","description":"Message ID to update"},"add_label_ids":{"type":"array","items":{"type":"string"},"description":"Label IDs to add"},"remove_label_ids":{"type":"array","items":{"type":"string"},"description":"Label IDs to remove"}},"required":["message_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.modify',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-2',
+        slug: 'gmail.batch_delete_messages',
+        name: 'Batch delete Gmail messages',
+        description: "Deletes many messages simultaneously by an array of `ids`.",
+        inputSchema: '{"type":"object","properties":{"ids":{"type":"array","items":{"type":"string"},"description":"Array of Gmail message IDs"}},"required":["ids"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.modify',
+        riskLevel: 'HIGH',
+        requiresApproval: true,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-3',
+        slug: 'gmail.batch_modify_messages',
+        name: 'Batch modify Gmail messages',
+        description: "Modifies labels on multiple messages in a batch operation by `ids`.",
+        inputSchema: '{"type":"object","properties":{"ids":{"type":"array","items":{"type":"string"},"description":"Array of message IDs"},"addLabelIds":{"type":"array","items":{"type":"string"}},"removeLabelIds":{"type":"array","items":{"type":"string"}}},"required":["ids"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.modify',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-4',
+        slug: 'gmail.create_draft',
+        name: 'Create email draft',
+        description: "Creates an email draft in the user mailbox with `to`, `subject`, and `body` without sending.",
+        inputSchema: '{"type":"object","properties":{"to":{"type":"string","description":"Recipient email"},"subject":{"type":"string","description":"Subject line"},"body":{"type":"string","description":"Draft body"}},"required":["to","subject","body"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.compose',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-5',
+        slug: 'gmail.create_filter',
+        name: 'Create Gmail filter',
+        description: "Creates a new message routing rule and automatic categorization filter.",
+        inputSchema: '{"type":"object","properties":{"criteria":{"type":"string","description":"Criteria filter query"},"action":{"type":"string","description":"Action rule payload"}},"required":["criteria"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.settings.basic',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-6',
+        slug: 'gmail.create_label',
+        name: 'Create label',
+        description: "Creates a new custom categorization label in user Gmail account with `name`.",
+        inputSchema: '{"type":"object","properties":{"name":{"type":"string","description":"Label name"}},"required":["name"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.labels',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-7',
+        slug: 'gmail.delete_draft',
+        name: 'Delete Draft',
+        description: "Permanently removes an unsent email draft by `draft_id`.",
+        inputSchema: '{"type":"object","properties":{"draft_id":{"type":"string","description":"Draft ID to delete"}},"required":["draft_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.compose',
+        riskLevel: 'MEDIUM',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-8',
+        slug: 'gmail.delete_filter',
+        name: 'Delete Gmail filter',
+        description: "Deletes an existing mailbox routing filter rule by `filter_id`.",
+        inputSchema: '{"type":"object","properties":{"filter_id":{"type":"string","description":"Filter ID to remove"}},"required":["filter_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.settings.basic',
+        riskLevel: 'MEDIUM',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-9',
+        slug: 'gmail.delete_label',
+        name: 'Delete label from account (permanent)',
+        description: "Permanently removes a mailbox label and unassigns it from all messages.",
+        inputSchema: '{"type":"object","properties":{"label_id":{"type":"string","description":"Label ID to remove"}},"required":["label_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.labels',
+        riskLevel: 'HIGH',
+        requiresApproval: true,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-10',
+        slug: 'gmail.delete_message',
+        name: 'Delete message',
+        description: "Moves an email message to Trash or permanently deletes it by `message_id`.",
+        inputSchema: '{"type":"object","properties":{"message_id":{"type":"string","description":"Message ID to delete"}},"required":["message_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.modify',
+        riskLevel: 'HIGH',
+        requiresApproval: true,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-11',
+        slug: 'gmail.delete_thread',
+        name: 'Delete thread',
+        description: "Permanently deletes an entire conversation thread and all messages within it by `thread_id`.",
+        inputSchema: '{"type":"object","properties":{"thread_id":{"type":"string","description":"Thread ID to delete"}},"required":["thread_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.modify',
+        riskLevel: 'HIGH',
+        requiresApproval: true,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-12',
+        slug: 'gmail.search_emails',
+        name: 'Search emails',
+        description: "Search messages in Gmail inbox by query syntax (e.g. `from:user@example.com is:unread`).",
+        inputSchema: '{"type":"object","properties":{"query":{"type":"string","description":"Gmail search query"},"maxResults":{"type":"integer","default":10}},"required":["query"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.readonly',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-13',
+        slug: 'gmail.send_email',
+        name: 'Send email',
+        description: "Compose and send an email message directly from connected Gmail account.",
+        inputSchema: '{"type":"object","properties":{"to":{"type":"string","description":"Recipient email"},"subject":{"type":"string","description":"Subject line"},"body":{"type":"string","description":"Message body"}},"required":["to","subject","body"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.send',
+        riskLevel: 'HIGH',
+        requiresApproval: true,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      },
+      {
+        id: 'gmail-14',
+        slug: 'gmail.get_email',
+        name: 'Get email details',
+        description: "Fetch complete email content, headers, sender, recipients, and message body by `message_id`.",
+        inputSchema: '{"type":"object","properties":{"message_id":{"type":"string","description":"Gmail message ID"}},"required":["message_id"]}',
+        requiredScopes: 'https://www.googleapis.com/auth/gmail.readonly',
+        riskLevel: 'LOW',
+        requiresApproval: false,
+        version: '1.0.0',
+        integrationSlug: 'gmail',
+        integrationName: name
+      }
+    ];
+  }
+
   if (s.includes('whatsapp')) {
     return [
       {
@@ -875,6 +1062,13 @@ export function getDefaultToolsForApp(integ: Integration): ToolDefinition[] {
 
 export function getAppTools(integ: Integration, allLoadedTools: ToolDefinition[]): ToolDefinition[] {
   const s = (integ.slug || '').toLowerCase();
+  const defaultTools = getDefaultToolsForApp(integ);
+
+  // If connector has a curated rich tool set (e.g. Gmail with 14 tools), prefer it
+  if (defaultTools && defaultTools.length >= 4) {
+    return defaultTools;
+  }
+
   const matching = (allLoadedTools || []).filter(t => {
     const tInteg = (t.integrationSlug || '').toLowerCase();
     const tSlug = (t.slug || '').toLowerCase();
@@ -889,5 +1083,5 @@ export function getAppTools(integ: Integration, allLoadedTools: ToolDefinition[]
 
   if (matching.length > 0) return matching;
 
-  return getDefaultToolsForApp(integ);
+  return defaultTools;
 }

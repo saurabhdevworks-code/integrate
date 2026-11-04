@@ -94,6 +94,35 @@ function getUserInitials(email: string | null): string {
   return localPart.substring(0, 2).toUpperCase();
 }
 
+function renderComposioDescription(desc: string, isLight: boolean) {
+  if (!desc) return null;
+  const parts = desc.split(/(`[^`]+`)/g);
+  return (
+    <span>
+      {parts.map((p, i) => {
+        if (p.startsWith('`') && p.endsWith('`')) {
+          return (
+            <code
+              key={i}
+              style={{
+                background: isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.12)',
+                color: isLight ? '#1f2937' : '#f3f4f6',
+                padding: '2px 5px',
+                borderRadius: 4,
+                fontFamily: 'ui-monospace, SFMono-Regular, monospace',
+                fontSize: 12
+              }}
+            >
+              {p.slice(1, -1)}
+            </code>
+          );
+        }
+        return <span key={i}>{p}</span>;
+      })}
+    </span>
+  );
+}
+
 // Google OAuth 2.0 Client Credentials
 const GOOGLE_CLIENT_ID = (import.meta.env.VITE_GOOGLE_CLIENT_ID as string) || 'your-google-client-id.apps.googleusercontent.com';
 
@@ -707,6 +736,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs'>('overview');
   const [selectedAppForTools, setSelectedAppForTools] = useState<Integration | null>(null);
   const [modalToolSearch, setModalToolSearch] = useState('');
+  const [expandedToolId, setExpandedToolId] = useState<string | null>(null);
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
@@ -5067,26 +5097,32 @@ console.log('Emails found:', searchRes.output);`}
                 </button>
               </div>
 
-              {/* Subheader info & search bar */}
+              {/* Composio-Style Toolbar: "Tools" heading on left + "Search tools..." input on right */}
               <div
                 style={{
-                  padding: '12px 24px',
-                  background: theme === 'light' ? '#f1f5f9' : '#121d2c',
-                  borderBottom: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #1e2d42',
-                  fontSize: 12,
-                  color: theme === 'light' ? '#334155' : '#cbd5e1',
+                  padding: '16px 24px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  gap: 16,
-                  flexWrap: 'wrap'
+                  borderBottom: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #1e293b',
+                  background: theme === 'light' ? '#ffffff' : '#0f172a'
                 }}
               >
-                <div style={{ flex: 1, minWidth: 200 }}>
-                  <span>{meta.subheading}</span>
-                </div>
-                <div style={{ position: 'relative', width: 220, maxWidth: '100%' }}>
-                  <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: theme === 'light' ? '#94a3b8' : '#64748b', pointerEvents: 'none' }} />
+                <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: theme === 'light' ? '#111827' : '#ffffff' }}>
+                  Tools
+                </h3>
+                <div style={{ position: 'relative', width: 260, maxWidth: '100%' }}>
+                  <Search
+                    size={14}
+                    style={{
+                      position: 'absolute',
+                      left: 11,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      color: theme === 'light' ? '#9ca3af' : '#6b7280',
+                      pointerEvents: 'none'
+                    }}
+                  />
                   <input
                     type="text"
                     placeholder="Search tools..."
@@ -5094,12 +5130,12 @@ console.log('Emails found:', searchRes.output);`}
                     onChange={e => setModalToolSearch(e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '6px 26px 6px 28px',
-                      fontSize: 11,
+                      padding: '7px 28px 7px 32px',
+                      fontSize: 12,
                       borderRadius: 6,
-                      border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #273447',
+                      border: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #334155',
                       background: theme === 'light' ? '#ffffff' : '#0d1522',
-                      color: theme === 'light' ? '#0f172a' : '#ffffff',
+                      color: theme === 'light' ? '#111827' : '#f9fafb',
                       outline: 'none',
                       boxSizing: 'border-box'
                     }}
@@ -5117,7 +5153,7 @@ console.log('Emails found:', searchRes.output);`}
                         border: 'none',
                         padding: 0,
                         cursor: 'pointer',
-                        color: '#94a3b8',
+                        color: '#9ca3af',
                         fontSize: 12
                       }}
                       title="Clear search"
@@ -5128,15 +5164,12 @@ console.log('Emails found:', searchRes.output);`}
                 </div>
               </div>
 
-              {/* Scrollable Actions List */}
+              {/* Scrollable Accordion Tool List (100% Matching Composio) */}
               <div
                 style={{
-                  padding: '20px 24px',
+                  padding: '16px 24px',
                   overflowY: 'auto',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 16,
-                  maxHeight: 'calc(88vh - 170px)'
+                  maxHeight: 'calc(85vh - 170px)'
                 }}
               >
                 {(() => {
@@ -5148,7 +5181,7 @@ console.log('Emails found:', searchRes.output);`}
 
                   if (filteredAppTools.length === 0) {
                     return (
-                      <div style={{ textAlign: 'center', padding: '36px 16px', color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                      <div style={{ textAlign: 'center', padding: '40px 16px', color: theme === 'light' ? '#6b7280' : '#9ca3af' }}>
                         <p style={{ margin: 0, fontSize: 13 }}>No tools match "{modalToolSearch}"</p>
                         <button
                           type="button"
@@ -5162,172 +5195,192 @@ console.log('Emails found:', searchRes.output);`}
                     );
                   }
 
-                  return filteredAppTools.map((tool, index) => {
-                    let schemaParams: { name: string; type: string; required: boolean; description: string }[] = [];
-                    try {
-                      const schema = typeof tool.inputSchema === 'string' ? JSON.parse(tool.inputSchema) : tool.inputSchema;
-                      const props = schema?.properties || {};
-                      const reqList: string[] = schema?.required || [];
-                      schemaParams = Object.keys(props).map(key => ({
-                        name: key,
-                        type: props[key]?.type || 'string',
-                        required: reqList.includes(key),
-                        description: props[key]?.description || ''
-                      }));
-                    } catch {
-                      // fallback
-                    }
+                  return (
+                    <div
+                      style={{
+                        border: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #273447',
+                        borderRadius: 8,
+                        overflow: 'hidden',
+                        background: theme === 'light' ? '#ffffff' : '#0f172a'
+                      }}
+                    >
+                      {filteredAppTools.map((tool, index) => {
+                        const toolKey = tool.id || tool.slug;
+                        const isExpanded = expandedToolId === toolKey || (expandedToolId === null && index === 0);
+                        const toolIdDisplay = (tool.id && tool.id.toUpperCase().startsWith('GMAIL_') ? tool.id : tool.slug.replace(/[-.]/g, '_').toUpperCase());
 
-                    const isHighRisk = tool.riskLevel === 'HIGH' || tool.requiresApproval;
-                    const isMediumRisk = tool.riskLevel === 'MEDIUM';
+                        let schemaParams: { name: string; type: string; required: boolean; description: string }[] = [];
+                        try {
+                          const schema = typeof tool.inputSchema === 'string' ? JSON.parse(tool.inputSchema) : tool.inputSchema;
+                          const props = schema?.properties || {};
+                          const reqList: string[] = schema?.required || [];
+                          schemaParams = Object.keys(props).map(key => ({
+                            name: key,
+                            type: props[key]?.type || 'string',
+                            required: reqList.includes(key),
+                            description: props[key]?.description || ''
+                          }));
+                        } catch {}
 
-                    return (
-                      <div
-                        key={tool.id || tool.slug || index}
-                        style={{
-                          padding: 18,
-                          borderRadius: 10,
-                          border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #273447',
-                          background: theme === 'light' ? '#ffffff' : '#142032',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          gap: 12,
-                          transition: 'border-color 0.15s ease'
-                        }}
-                      >
-                        {/* Action Header */}
-                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-                          <div style={{ flex: 1, minWidth: 260 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                              <h4 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: theme === 'light' ? '#0f172a' : '#ffffff' }}>
-                                {tool.name}
-                              </h4>
-                              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                                <code
-                                  style={{
-                                    fontSize: 11,
-                                    padding: '2px 6px',
-                                    borderRadius: 4,
-                                    background: theme === 'light' ? '#f1f5f9' : '#0d1522',
-                                    color: theme === 'light' ? '#007007' : '#38bdf8',
-                                    border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #1e293b'
-                                  }}
-                                >
-                                  {tool.slug}
-                                </code>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    navigator.clipboard.writeText(tool.slug);
-                                    setCopiedToolSlug(tool.slug);
-                                    setTimeout(() => setCopiedToolSlug(null), 1600);
-                                  }}
-                                  style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    padding: 2,
-                                    cursor: 'pointer',
-                                    color: copiedToolSlug === tool.slug ? '#10b981' : (theme === 'light' ? '#94a3b8' : '#64748b'),
-                                    display: 'inline-flex',
-                                    alignItems: 'center'
-                                  }}
-                                  title="Copy action slug"
-                                >
-                                  {copiedToolSlug === tool.slug ? <Check size={12} /> : <Copy size={12} />}
-                                </button>
-                              </div>
-                            </div>
-                            <p style={{ margin: '6px 0 0', fontSize: 12, color: theme === 'light' ? '#475569' : '#94a3b8', lineHeight: 1.4 }}>
-                              {tool.description}
-                            </p>
-                          </div>
+                        const isHighRisk = tool.riskLevel === 'HIGH' || tool.requiresApproval;
 
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                            <span
-                              style={{
-                                fontSize: 10,
-                                fontWeight: 700,
-                                padding: '3px 8px',
-                                borderRadius: 4,
-                                letterSpacing: '0.4px',
-                                textTransform: 'uppercase',
-                                background: isHighRisk
-                                  ? 'rgba(239, 68, 68, 0.12)'
-                                  : isMediumRisk
-                                  ? 'rgba(245, 158, 11, 0.12)'
-                                  : 'rgba(16, 185, 129, 0.12)',
-                                color: isHighRisk ? '#ef4444' : isMediumRisk ? '#f59e0b' : '#10b981',
-                                border: `1px solid ${isHighRisk ? 'rgba(239, 68, 68, 0.3)' : isMediumRisk ? 'rgba(245, 158, 11, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`
-                              }}
-                            >
-                              {isHighRisk ? 'High Risk (Approval)' : isMediumRisk ? 'Medium Risk' : 'Low Risk (Safe)'}
-                            </span>
-
-                            <button
-                              type="button"
-                              className="primary"
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: 6,
-                                fontSize: 11,
-                                fontWeight: 600,
-                                padding: '6px 14px',
-                                borderRadius: 6
-                              }}
-                              onClick={() => openRunToolModal(tool)}
-                            >
-                              <Play size={11} /> Test Action
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Parameters section */}
-                        {schemaParams.length > 0 && (
+                        return (
                           <div
+                            key={toolKey}
                             style={{
-                              background: theme === 'light' ? '#f8fafc' : '#0b1320',
-                              padding: '10px 14px',
-                              borderRadius: 6,
-                              border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #1e293b'
+                              borderBottom: index < filteredAppTools.length - 1 ? (theme === 'light' ? '1px solid #f3f4f6' : '1px solid #1e293b') : 'none'
                             }}
                           >
-                            <div style={{ fontSize: 11, fontWeight: 600, marginBottom: 8, color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
-                              PARAMETERS ({schemaParams.length})
+                            {/* Header row: Tool name + Chevron */}
+                            <div
+                              onClick={() => setExpandedToolId(isExpanded ? '__none__' : toolKey)}
+                              style={{
+                                padding: '15px 20px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                cursor: 'pointer',
+                                background: isExpanded ? (theme === 'light' ? '#f9fafb' : '#142032') : 'transparent',
+                                userSelect: 'none',
+                                transition: 'background 0.15s ease'
+                              }}
+                              onMouseEnter={e => {
+                                if (!isExpanded) e.currentTarget.style.background = theme === 'light' ? '#fcfcfd' : '#111c2c';
+                              }}
+                              onMouseLeave={e => {
+                                if (!isExpanded) e.currentTarget.style.background = 'transparent';
+                              }}
+                            >
+                              <span style={{ fontSize: 14, fontWeight: 500, color: theme === 'light' ? '#111827' : '#f9fafb' }}>
+                                {tool.name}
+                              </span>
+                              {isExpanded ? (
+                                <ChevronUp size={18} style={{ color: theme === 'light' ? '#6b7280' : '#9ca3af', flexShrink: 0 }} />
+                              ) : (
+                                <ChevronDown size={18} style={{ color: theme === 'light' ? '#6b7280' : '#9ca3af', flexShrink: 0 }} />
+                              )}
                             </div>
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                              {schemaParams.map(param => (
-                                <div
-                                  key={param.name}
-                                  style={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: 6,
-                                    fontSize: 11,
-                                    padding: '3px 8px',
-                                    borderRadius: 4,
-                                    background: theme === 'light' ? '#ffffff' : '#142032',
-                                    border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #273447'
-                                  }}
-                                  title={param.description || `${param.name} (${param.type})`}
-                                >
-                                  <code style={{ color: theme === 'light' ? '#0f172a' : '#f1f5f9', fontWeight: 600 }}>
-                                    {param.name}
-                                  </code>
-                                  <span style={{ fontSize: 10, color: '#64748b' }}>
-                                    :{param.type}
+
+                            {/* Expanded Body: 2-column description, tool id, parameters & test action */}
+                            {isExpanded && (
+                              <div
+                                style={{
+                                  padding: '16px 20px',
+                                  background: theme === 'light' ? '#f9fafb' : '#142032',
+                                  borderTop: theme === 'light' ? '1px solid #f3f4f6' : '1px solid #1e293b',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  gap: 14
+                                }}
+                              >
+                                {/* Description Row */}
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 24 }}>
+                                  <span style={{ width: 90, fontSize: 13, color: theme === 'light' ? '#6b7280' : '#9ca3af', flexShrink: 0 }}>
+                                    Description
                                   </span>
-                                  {param.required && (
-                                    <span style={{ fontSize: 10, color: '#ef4444', fontWeight: 700 }} title="Required">*</span>
-                                  )}
+                                  <div style={{ flex: 1, fontSize: 13, lineHeight: 1.5, color: theme === 'light' ? '#1f2937' : '#e5e7eb' }}>
+                                    {renderComposioDescription(tool.description, theme === 'light')}
+                                  </div>
                                 </div>
-                              ))}
-                            </div>
+
+                                {/* Tool ID Row */}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+                                  <span style={{ width: 90, fontSize: 13, color: theme === 'light' ? '#6b7280' : '#9ca3af', flexShrink: 0 }}>
+                                    Tool ID
+                                  </span>
+                                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                                    <code style={{ fontFamily: 'ui-monospace, SFMono-Regular, monospace', fontSize: 13, letterSpacing: '0.4px', fontWeight: 600, color: theme === 'light' ? '#1f2937' : '#f3f4f6' }}>
+                                      {toolIdDisplay}
+                                    </code>
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigator.clipboard.writeText(toolIdDisplay);
+                                        setCopiedToolSlug(tool.slug);
+                                        setTimeout(() => setCopiedToolSlug(null), 1600);
+                                      }}
+                                      style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        padding: 2,
+                                        cursor: 'pointer',
+                                        color: copiedToolSlug === tool.slug ? '#10b981' : (theme === 'light' ? '#9ca3af' : '#6b7280'),
+                                        display: 'inline-flex',
+                                        alignItems: 'center'
+                                      }}
+                                      title="Copy Tool ID"
+                                    >
+                                      {copiedToolSlug === tool.slug ? <Check size={13} /> : <Copy size={13} />}
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Parameters & Test Action Row */}
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, paddingTop: 6, borderTop: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #1e293b', flexWrap: 'wrap' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                                    {schemaParams.length > 0 && schemaParams.map(param => (
+                                      <span
+                                        key={param.name}
+                                        style={{
+                                          fontSize: 11,
+                                          fontFamily: 'monospace',
+                                          padding: '2px 7px',
+                                          borderRadius: 4,
+                                          background: theme === 'light' ? '#ffffff' : '#0d1522',
+                                          border: theme === 'light' ? '1px solid #e5e7eb' : '1px solid #273447',
+                                          color: theme === 'light' ? '#374151' : '#cbd5e1'
+                                        }}
+                                        title={param.description}
+                                      >
+                                        {param.name}:{param.type}
+                                        {param.required && <span style={{ color: '#ef4444', fontWeight: 700 }}>*</span>}
+                                      </span>
+                                    ))}
+                                  </div>
+
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                    <span
+                                      style={{
+                                        fontSize: 10,
+                                        fontWeight: 700,
+                                        padding: '3px 8px',
+                                        borderRadius: 4,
+                                        letterSpacing: '0.4px',
+                                        textTransform: 'uppercase',
+                                        background: isHighRisk ? 'rgba(239, 68, 68, 0.12)' : 'rgba(16, 185, 129, 0.12)',
+                                        color: isHighRisk ? '#ef4444' : '#10b981',
+                                        border: `1px solid ${isHighRisk ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`
+                                      }}
+                                    >
+                                      {isHighRisk ? 'Approval Required' : 'Safe / Read'}
+                                    </span>
+
+                                    <button
+                                      type="button"
+                                      className="primary"
+                                      style={{
+                                        display: 'inline-flex',
+                                        alignItems: 'center',
+                                        gap: 6,
+                                        fontSize: 11,
+                                        fontWeight: 600,
+                                        padding: '6px 14px',
+                                        borderRadius: 6
+                                      }}
+                                      onClick={() => openRunToolModal(tool)}
+                                    >
+                                      <Play size={11} /> Test Action
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        )}
-                      </div>
-                    );
-                  });
+                        );
+                      })}
+                    </div>
+                  );
                 })()}
               </div>
 
