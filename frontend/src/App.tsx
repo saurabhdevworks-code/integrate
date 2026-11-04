@@ -159,7 +159,31 @@ export const DEFAULT_CONNECTORS: Integration[] = [
   { id: '27', slug: 'linkedin', name: 'LinkedIn', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'w_member_social,r_liteprofile', iconUrl: '/icons/linkedin.svg', documentationUrl: 'https://learn.microsoft.com/en-us/linkedin/', enabled: true, configured: true },
   { id: '28', slug: 'mailchimp', name: 'Mailchimp', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'campaigns:read,campaigns:write', iconUrl: null, documentationUrl: 'https://mailchimp.com/developer/marketing/api/', enabled: true, configured: true },
   { id: '29', slug: 'intercom', name: 'Intercom', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: null, documentationUrl: 'https://developers.intercom.com/docs', enabled: true, configured: true },
-  { id: '30', slug: 'canva', name: 'Canva', category: 'DESIGN', authType: 'OAUTH2', defaultScopes: 'design:content:read,design:content:write,asset:read,asset:write', iconUrl: '/icons/canva.png', documentationUrl: 'https://www.canva.dev/docs/connect/', enabled: true, configured: true }
+  { id: '30', slug: 'canva', name: 'Canva', category: 'DESIGN', authType: 'OAUTH2', defaultScopes: 'design:content:read,design:content:write,asset:read,asset:write', iconUrl: '/icons/canva.png', documentationUrl: 'https://www.canva.dev/docs/connect/', enabled: true, configured: true },
+
+  // Job Portals & Recruiting
+  { id: '31', slug: 'indeed', name: 'Indeed Jobs', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'jobsearch,applications:read,vacancies:write', iconUrl: 'https://cdn.simpleicons.org/indeed', documentationUrl: 'https://developer.indeed.com/', enabled: true, configured: true },
+  { id: '32', slug: 'glassdoor', name: 'Glassdoor', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'reviews:read,salaries:read,jobs:read', iconUrl: 'https://cdn.simpleicons.org/glassdoor', documentationUrl: 'https://www.glassdoor.com/developer/', enabled: true, configured: true },
+  { id: '33', slug: 'greenhouse', name: 'Greenhouse ATS', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'candidates:read,candidates:write,jobs:read', iconUrl: 'https://cdn.simpleicons.org/greenhouse', documentationUrl: 'https://developers.greenhouse.io/', enabled: true, configured: true },
+  { id: '34', slug: 'lever', name: 'Lever Hire', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'candidates:read,opportunities:write,postings:read', iconUrl: 'https://cdn.simpleicons.org/lever', documentationUrl: 'https://hire.lever.co/developer/documentation', enabled: true, configured: true },
+  { id: '35', slug: 'workday', name: 'Workday HCM', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'workers:read,staffing:read,requisitions:read', iconUrl: 'https://cdn.simpleicons.org/workday', documentationUrl: 'https://community.workday.com/developer', enabled: true, configured: true },
+  { id: '36', slug: 'ziprecruiter', name: 'ZipRecruiter', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'jobs:post,candidates:screen,applicants:read', iconUrl: 'https://cdn.simpleicons.org/ziprecruiter', documentationUrl: 'https://www.ziprecruiter.com/partners', enabled: true, configured: true },
+  { id: '37', slug: 'wellfound', name: 'Wellfound (AngelList)', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'jobs:manage,startups:read,talent:browse', iconUrl: 'https://cdn.simpleicons.org/wellfound', documentationUrl: 'https://wellfound.com/developers', enabled: true, configured: true },
+  { id: '38', slug: 'smartrecruiters', name: 'SmartRecruiters', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'jobs_read,candidates_create,postings_manage', iconUrl: 'https://cdn.simpleicons.org/smartrecruiters', documentationUrl: 'https://developers.smartrecruiters.com/', enabled: true, configured: true },
+  { id: '39', slug: 'breezy_hr', name: 'Breezy HR', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'positions:read,candidates:manage', iconUrl: 'https://cdn.simpleicons.org/breezyhr', documentationUrl: 'https://developer.breezy.hr/', enabled: true, configured: true },
+  { id: '40', slug: 'workable', name: 'Workable', category: 'RECRUITING', authType: 'OAUTH2', defaultScopes: 'recruit:read,recruit:write', iconUrl: 'https://cdn.simpleicons.org/workable', documentationUrl: 'https://workable.readme.io/', enabled: true, configured: true },
+
+  // Social Media
+  { id: '41', slug: 'instagram', name: 'Instagram Graph API', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'instagram_basic,instagram_content_publish,pages_read_engagement', iconUrl: 'https://cdn.simpleicons.org/instagram', documentationUrl: 'https://developers.facebook.com/docs/instagram-api', enabled: true, configured: true },
+  { id: '42', slug: 'facebook', name: 'Facebook Pages & Groups', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'pages_manage_posts,pages_read_engagement,groups_access_member_info', iconUrl: 'https://cdn.simpleicons.org/facebook', documentationUrl: 'https://developers.facebook.com/docs/pages-api', enabled: true, configured: true },
+  { id: '43', slug: 'youtube', name: 'YouTube Data API', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'https://www.googleapis.com/auth/youtube.upload,https://www.googleapis.com/auth/youtube.readonly', iconUrl: 'https://cdn.simpleicons.org/youtube', documentationUrl: 'https://developers.google.com/youtube/v3', enabled: true, configured: true },
+  { id: '44', slug: 'tiktok', name: 'TikTok for Business', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'video.publish,user.info.basic,creator.marketplace', iconUrl: 'https://cdn.simpleicons.org/tiktok', documentationUrl: 'https://developers.tiktok.com/', enabled: true, configured: true },
+  { id: '45', slug: 'reddit', name: 'Reddit API', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'submit,read,mysubreddits,identity', iconUrl: 'https://cdn.simpleicons.org/reddit', documentationUrl: 'https://www.reddit.com/dev/api/', enabled: true, configured: true },
+  { id: '46', slug: 'pinterest', name: 'Pinterest API', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'boards:read,boards:write,pins:read,pins:write', iconUrl: 'https://cdn.simpleicons.org/pinterest', documentationUrl: 'https://developers.pinterest.com/', enabled: true, configured: true },
+  { id: '47', slug: 'threads', name: 'Meta Threads', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'threads_basic,threads_content_publish', iconUrl: 'https://cdn.simpleicons.org/threads', documentationUrl: 'https://developers.facebook.com/docs/threads', enabled: true, configured: true },
+  { id: '48', slug: 'whatsapp', name: 'WhatsApp Business Platform', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'whatsapp_business_messaging,whatsapp_business_management', iconUrl: 'https://cdn.simpleicons.org/whatsapp', documentationUrl: 'https://developers.facebook.com/docs/whatsapp', enabled: true, configured: true },
+  { id: '49', slug: 'snapchat', name: 'Snapchat Marketing', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'snapchat-marketing-api,snapchat-profile-api', iconUrl: 'https://cdn.simpleicons.org/snapchat', documentationUrl: 'https://marketingapi.snapchat.com/', enabled: true, configured: true },
+  { id: '50', slug: 'bluesky', name: 'Bluesky Social', category: 'SOCIAL_MEDIA', authType: 'OAUTH2', defaultScopes: 'atproto,com.atproto.repo.createRecord', iconUrl: 'https://cdn.simpleicons.org/bluesky', documentationUrl: 'https://docs.bsky.app/', enabled: true, configured: true }
 ];
 
 export function getConnectorDetails(slug: string, fallbackName: string): ConnectorDetails {
@@ -403,6 +427,170 @@ export function getConnectorDetails(slug: string, fallbackName: string): Connect
       subheading: 'Engage active website leads, send conversational messages, and track users',
       category: 'CRM & Sales',
       iconUrl: 'https://cdn.simpleicons.org/intercom'
+    };
+  }
+
+  // Job Portals & Recruiting
+  if (s.includes('indeed')) {
+    return {
+      author: 'by Indeed',
+      subheading: 'Search job postings, post open vacancies, and retrieve candidate applications via Indeed API',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/indeed'
+    };
+  }
+  if (s.includes('glassdoor')) {
+    return {
+      author: 'by Glassdoor',
+      subheading: 'Access company reviews, salary benchmarks, and live job listing insights',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/glassdoor'
+    };
+  }
+  if (s.includes('greenhouse')) {
+    return {
+      author: 'by Greenhouse Software',
+      subheading: 'Automate candidate pipelines, interview scorecards, and hiring workflows',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/greenhouse'
+    };
+  }
+  if (s.includes('lever')) {
+    return {
+      author: 'by Employ / Lever',
+      subheading: 'Sync candidate requisitions, track talent stages, and post job openings',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/lever'
+    };
+  }
+  if (s.includes('workday')) {
+    return {
+      author: 'by Workday',
+      subheading: 'Enterprise HCM worker records, job requisitions, and organizational hierarchy',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/workday'
+    };
+  }
+  if (s.includes('ziprecruiter')) {
+    return {
+      author: 'by ZipRecruiter',
+      subheading: 'Distribute job postings, screen candidate resumes, and sync applicants',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/ziprecruiter'
+    };
+  }
+  if (s.includes('wellfound')) {
+    return {
+      author: 'by Wellfound',
+      subheading: 'Startup job postings, founder connections, and candidate screening',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/wellfound'
+    };
+  }
+  if (s.includes('smartrecruiters')) {
+    return {
+      author: 'by SmartRecruiters',
+      subheading: 'Enterprise talent acquisition, job requisition publishing, and applicant tracking',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/smartrecruiters'
+    };
+  }
+  if (s.includes('breezy')) {
+    return {
+      author: 'by Breezy HR',
+      subheading: 'Modern applicant tracking, interview scheduling, and pipeline management',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/breezyhr'
+    };
+  }
+  if (s.includes('workable')) {
+    return {
+      author: 'by Workable',
+      subheading: 'Post jobs across boards, evaluate candidates, and manage hiring teams',
+      category: 'Recruiting',
+      iconUrl: 'https://cdn.simpleicons.org/workable'
+    };
+  }
+
+  // Social Media
+  if (s.includes('instagram')) {
+    return {
+      author: 'by Meta',
+      subheading: 'Publish reels, photos, schedule carousel posts, and read media insights',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/instagram'
+    };
+  }
+  if (s.includes('facebook')) {
+    return {
+      author: 'by Meta',
+      subheading: 'Manage business pages, publish updates, and track audience engagement',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/facebook'
+    };
+  }
+  if (s.includes('youtube')) {
+    return {
+      author: 'by Google',
+      subheading: 'Upload videos, manage playlists, fetch analytics, and moderate comments',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/youtube'
+    };
+  }
+  if (s.includes('tiktok')) {
+    return {
+      author: 'by ByteDance',
+      subheading: 'Publish video content, access creator marketplace, and retrieve metrics',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/tiktok'
+    };
+  }
+  if (s.includes('reddit')) {
+    return {
+      author: 'by Reddit',
+      subheading: 'Monitor subreddit discussions, submit posts, and moderate community threads',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/reddit'
+    };
+  }
+  if (s.includes('pinterest')) {
+    return {
+      author: 'by Pinterest',
+      subheading: 'Create pins, organize visual boards, and track discovery analytics',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/pinterest'
+    };
+  }
+  if (s.includes('threads')) {
+    return {
+      author: 'by Meta',
+      subheading: 'Publish text threads, quote replies, and track conversation analytics',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/threads'
+    };
+  }
+  if (s.includes('whatsapp')) {
+    return {
+      author: 'by Meta',
+      subheading: 'Send automated transactional messages, support chats, and template updates',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/whatsapp'
+    };
+  }
+  if (s.includes('snapchat')) {
+    return {
+      author: 'by Snap Inc',
+      subheading: 'Manage ad campaigns, audience filters, and creative brand spotlight',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/snapchat'
+    };
+  }
+  if (s.includes('bluesky')) {
+    return {
+      author: 'by Bluesky PBLLC',
+      subheading: 'Decentralized AT Protocol posts, notifications, and social feeds',
+      category: 'Social Media',
+      iconUrl: 'https://cdn.simpleicons.org/bluesky'
     };
   }
 
@@ -3266,6 +3454,8 @@ print("Result:", response.json())`;
               { id: 'COMMUNICATION', label: 'Communication' },
               { id: 'DEVELOPER_TOOLS', label: 'Developer Tools' },
               { id: 'PRODUCTIVITY', label: 'Productivity' },
+              { id: 'RECRUITING', label: 'Job Portals & Recruiting' },
+              { id: 'SOCIAL_MEDIA', label: 'Social Media' },
               { id: 'CRM', label: 'CRM & Sales' },
               { id: 'FINANCE', label: 'Finance' },
               { id: 'STORAGE', label: 'Storage' },

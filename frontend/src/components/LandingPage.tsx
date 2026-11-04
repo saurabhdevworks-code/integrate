@@ -162,7 +162,7 @@ export function LandingPage({ theme, toggleTheme, onOpenAuth, integrations }: La
     }
   }
 
-  const categories = ['ALL', 'COMMUNICATION', 'DEVELOPER_TOOLS', 'PRODUCTIVITY', 'STORAGE', 'DESIGN'];
+  const categories = ['ALL', 'COMMUNICATION', 'DEVELOPER_TOOLS', 'PRODUCTIVITY', 'RECRUITING', 'SOCIAL_MEDIA', 'FINANCE', 'CRM', 'STORAGE', 'DESIGN'];
 
   const filteredIntegrations = (integrations && integrations.length > 0 ? integrations : []).filter(item => {
     const matchesCat = selectedCategory === 'ALL' || item.category?.toUpperCase() === selectedCategory;
@@ -324,7 +324,7 @@ print("Result:", response.data)`,
             Live Simulator
           </a>
           <a href="#connectors" style={{ color: isDark ? '#94a3b8' : '#475569', textDecoration: 'none', transition: 'color 0.15s' }}>
-            30+ Connectors
+            50+ Connectors
           </a>
           <a href="#architecture" style={{ color: isDark ? '#94a3b8' : '#475569', textDecoration: 'none', transition: 'color 0.15s' }}>
             Security Core
@@ -482,7 +482,7 @@ print("Result:", response.data)`,
           position: 'relative',
           zIndex: 1
         }}>
-          The production-grade execution bridge connecting LLMs, AI agents, and workflows to <strong>30+ SaaS apps</strong>.
+          The production-grade execution bridge connecting LLMs, AI agents, and workflows to <strong>50+ SaaS apps, job portals & social platforms</strong>.
           Zero raw tokens exposed, built-in human approval gates, and instant <strong>Model Context Protocol (MCP)</strong> support.
         </p>
 
@@ -579,7 +579,7 @@ print("Result:", response.data)`,
           zIndex: 1
         }}>
           {[
-            { label: 'Built-in SaaS Connectors', value: '30+', icon: Boxes },
+            { label: 'Built-in Connectors & Platforms', value: '50+', icon: Boxes },
             { label: 'Execution Engine Latency', value: '< 45ms', icon: Zap },
             { label: 'Credential Encryption', value: 'AES-256-GCM', icon: Lock },
             { label: 'Model Context Protocol', value: '100% MCP Native', icon: Bot }
@@ -1039,7 +1039,7 @@ print("Result:", response.data)`,
         </div>
       </section>
 
-      {/* 5. 30+ Connectors Interactive Catalog (NO EMOJIS) */}
+      {/* 5. 50+ Connectors Interactive Catalog (NO EMOJIS) */}
       <section id="connectors" style={{
         position: 'relative',
         padding: '70px 24px',
@@ -1063,7 +1063,7 @@ print("Result:", response.data)`,
             <span>Connectors Catalog</span>
           </div>
           <h2 style={{ fontSize: 32, fontWeight: 800, letterSpacing: '-1px', margin: '0 0 12px' }}>
-            30+ Production Connectors Ready to Empower Your Stack
+            50+ Production Connectors Ready to Empower Your Stack
           </h2>
           <p style={{ fontSize: 15, color: isDark ? '#94a3b8' : '#64748b', maxWidth: 640, margin: '0 auto 24px' }}>
             Connect with 1-click Master SSO. Zero developer consoles, custom OAuth redirect URIs, or manual token refresh cron jobs.
@@ -1074,7 +1074,7 @@ print("Result:", response.data)`,
             <Search size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: isDark ? '#64748b' : '#94a3b8' }} />
             <input
               type="text"
-              placeholder="Search 30+ connectors (e.g. Slack, GitHub, Gmail, Canva)..."
+              placeholder="Search 50+ connectors (e.g. LinkedIn, Indeed, Instagram, Slack, GitHub)..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               style={{
@@ -1165,7 +1165,14 @@ print("Result:", response.data)`,
                   overflow: 'hidden'
                 }}>
                   {hasIcon && item.iconUrl ? (
-                    <img src={item.iconUrl} alt={item.name} style={{ width: 26, height: 26, objectFit: 'contain' }} />
+                    <img
+                      src={item.iconUrl}
+                      alt={item.name}
+                      style={{ width: 26, height: 26, objectFit: 'contain' }}
+                      onError={e => {
+                        (e.currentTarget as HTMLElement).style.display = 'none';
+                      }}
+                    />
                   ) : (
                     <Boxes size={22} style={{ color: isDark ? '#4ade80' : '#007007' }} />
                   )}
@@ -1214,7 +1221,7 @@ print("Result:", response.data)`,
               gap: 8
             }}
           >
-            <span>Explore All 30+ Connectors in Console</span>
+            <span>Explore All 50+ Connectors in Console</span>
             <ArrowRight size={14} />
           </button>
         </div>
@@ -1557,7 +1564,7 @@ print("Result:", response.data)`,
             Ready to Connect Your AI Agents to the Real World?
           </h2>
           <p style={{ fontSize: 16, color: isDark ? '#cbd5e1' : '#475569', maxWidth: 600, margin: '0 auto 32px', lineHeight: 1.6, position: 'relative', zIndex: 1 }}>
-            Set up your workspace in under 2 minutes. Instant 30+ connectors, zero payment info required, and ready for production.
+            Set up your workspace in under 2 minutes. Instant 50+ connectors, zero payment info required, and ready for production.
           </p>
           <button
             type="button"
