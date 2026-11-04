@@ -69,6 +69,7 @@ import {
   UsageSummaryResponse
 } from './api/client';
 import { ConnectHostedPage } from './components/ConnectHostedPage';
+import { LandingPage } from './components/LandingPage';
 
 function getUserDisplayName(email: string | null): string {
   if (!email) return 'Developer';
@@ -449,7 +450,8 @@ export default function App() {
 
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('userEmail'));
-  const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'tools' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'tools' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs' | 'landing'>('overview');
+  const [showLandingPage, setShowLandingPage] = useState(true);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
   });
@@ -2013,10 +2015,44 @@ print("Result:", response.json())`;
     setTimeout(() => setCopied(false), 2000);
   }
 
-  // --- Render Auth View if not logged in ---
+  // --- Render Landing Page or Auth View if not logged in ---
   if (!token) {
+    if (showLandingPage) {
+      return (
+        <LandingPage
+          theme={theme}
+          toggleTheme={toggleTheme}
+          onOpenAuth={() => setShowLandingPage(false)}
+          integrations={integrations}
+        />
+      );
+    }
+
     return (
       <div className="auth-container">
+        <div style={{ position: 'absolute', top: 20, left: 24, zIndex: 10 }}>
+          <button
+            type="button"
+            onClick={() => setShowLandingPage(true)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '8px 14px',
+              borderRadius: 8,
+              border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #27364b',
+              background: theme === 'light' ? '#ffffff' : '#121c2c',
+              color: theme === 'light' ? '#0f172a' : '#ffffff',
+              cursor: 'pointer',
+              fontSize: 12,
+              fontWeight: 600,
+              boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
+            }}
+          >
+            <ArrowLeft size={14} />
+            <span>Back to Home</span>
+          </button>
+        </div>
         <div style={{ position: 'absolute', top: 20, right: 24 }}>
           <button
             type="button"
@@ -2046,7 +2082,6 @@ print("Result:", response.json())`;
             <img
               src={theme === 'light' ? './logo-dark.png' : './logo-white.png'}
               alt="integrate"
-              className="brand-logo-animated"
               style={{ height: 32, width: 'auto', objectFit: 'contain' }}
             />
           </div>
@@ -2185,13 +2220,19 @@ print("Result:", response.json())`;
           <img
             src={theme === 'light' ? './logo-dark.png' : './logo-white.png'}
             alt="integrate"
-            className="brand-logo-animated"
             style={{ height: 26, width: 'auto', objectFit: 'contain' }}
           />
         </div>
 
         <div className="nav-label" style={{ marginTop: 12 }}>WORKSPACE</div>
         <nav>
+          <a
+            className={activeTab === 'landing' ? 'active' : ''}
+            href="#"
+            onClick={e => { e.preventDefault(); setActiveTab('landing'); }}
+          >
+            <Globe size={17} /> Home Page
+          </a>
           <a
             className={activeTab === 'overview' ? 'active' : ''}
             href="#"
@@ -2528,6 +2569,18 @@ print("Result:", response.json())`;
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <div className="eyebrow">DEVELOPER CONSOLE</div>
           </div>
+
+          {/* TAB 0: CRAZY LANDING / HOME PAGE */}
+          {activeTab === 'landing' && (
+            <div style={{ margin: '-24px -28px', minHeight: '100%' }}>
+              <LandingPage
+                theme={theme}
+                toggleTheme={toggleTheme}
+                onOpenAuth={() => setActiveTab('overview')}
+                integrations={integrations}
+              />
+            </div>
+          )}
 
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
