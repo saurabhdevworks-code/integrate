@@ -1612,7 +1612,7 @@ button, .primary, .btn-secondary, .btn-danger, .btn-theme-toggle, input[type="su
 .sso-pill-btn {
   position: relative;
   z-index: 2;
-  padding: 7px 22px;
+  padding: 7px 20px;
   font-size: 13px;
   font-weight: 700;
   text-align: center;
@@ -1624,7 +1624,8 @@ button, .primary, .btn-secondary, .btn-danger, .btn-theme-toggle, input[type="su
   user-select: none;
   outline: none;
   white-space: nowrap;
-  min-width: 90px;
+  width: 105px;
+  box-sizing: border-box;
 }
 .sso-pill-btn.active {
   color: #ffffff !important;

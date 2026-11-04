@@ -782,6 +782,8 @@ export default function App() {
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('signup');
   const [authEmail, setAuthEmail] = useState('');
   const [authPassword, setAuthPassword] = useState('');
+  const [authConfirmPassword, setAuthConfirmPassword] = useState('');
+  const [showAuthConfirmPassword, setShowAuthConfirmPassword] = useState(false);
   const [authOrgName, setAuthOrgName] = useState('');
   const [authError, setAuthError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -1015,6 +1017,10 @@ export default function App() {
   }
 
   async function handleAuthSubmit(e: React.FormEvent) {
+    if (authMode === 'signup' && authPassword !== authConfirmPassword) {
+      setAuthError('Passwords do not match');
+      return;
+    }
     e.preventDefault();
     setAuthError(null);
     setLoading(true);
@@ -2023,7 +2029,13 @@ print("Result:", response.json())`;
         <LandingPage
           theme={theme}
           toggleTheme={toggleTheme}
-          onOpenAuth={() => setShowLandingPage(false)}
+          onOpenAuth={(mode) => {
+            setShowLandingPage(false);
+            if (mode) {
+              setAuthMode(mode);
+              setAuthError(null);
+            }
+          }}
           integrations={integrations}
         />
       );
@@ -2121,26 +2133,39 @@ print("Result:", response.json())`;
             <div style={{ flex: 1, height: 1, background: theme === 'light' ? '#e2e8f0' : '#273447' }} />
           </div>
 
-          <div className="auth-tabs">
-            <button
-              className={`auth-tab ${authMode === 'signup' ? 'active' : ''}`}
-              onClick={() => { setAuthMode('signup'); setAuthError(null); }}
-            >
-              Create Account
-            </button>
-            <button
-              className={`auth-tab ${authMode === 'login' ? 'active' : ''}`}
-              onClick={() => { setAuthMode('login'); setAuthError(null); }}
-            >
-              Sign In
-            </button>
+          {/* Centered Segmented Capsule Switch [Sign In | Sign Up] */}
+          <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginBottom: 20 }}>
+            <div className="sso-pill-toggle" role="tablist" aria-label="Authentication Mode">
+              <div
+                className={`sso-pill-slider ${authMode === 'signup' ? 'pos-signup' : 'pos-login'}`}
+                aria-hidden="true"
+              />
+              <button
+                type="button"
+                role="tab"
+                aria-selected={authMode === 'login'}
+                className={`sso-pill-btn ${authMode === 'login' ? 'active' : ''}`}
+                onClick={() => { setAuthMode('login'); setAuthError(null); setAuthConfirmPassword(''); }}
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={authMode === 'signup'}
+                className={`sso-pill-btn ${authMode === 'signup' ? 'active' : ''}`}
+                onClick={() => { setAuthMode('signup'); setAuthError(null); }}
+              >
+                Sign Up
+              </button>
+            </div>
           </div>
 
           {authError && <div className="error-banner" style={{ marginBottom: 16 }}>{authError}</div>}
 
           <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div className="form-group">
-              <label className="form-label">Email Address</label>
+              <label className="form-label" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.5px' }}>EMAIL ADDRESS</label>
               <input
                 className="form-input"
                 type="email"
@@ -2152,7 +2177,7 @@ print("Result:", response.json())`;
             </div>
 
             <div className="form-group">
-              <label className="form-label">Password</label>
+              <label className="form-label" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.5px' }}>PASSWORD</label>
               <div className="password-input-wrapper" style={{ position: 'relative', width: '100%' }}>
                 <input
                   className="form-input"
@@ -2192,7 +2217,48 @@ print("Result:", response.json())`;
 
             {authMode === 'signup' && (
               <div className="form-group">
-                <label className="form-label">Organization Name (Optional)</label>
+                <label className="form-label" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.5px' }}>CONFIRM PASSWORD</label>
+                <div className="password-input-wrapper" style={{ position: 'relative', width: '100%' }}>
+                  <input
+                    className="form-input"
+                    type={showAuthConfirmPassword ? 'text' : 'password'}
+                    required
+                    minLength={8}
+                    placeholder="Confirm Password"
+                    value={authConfirmPassword}
+                    onChange={e => setAuthConfirmPassword(e.target.value)}
+                    style={{ width: '100%', boxSizing: 'border-box', paddingRight: 40 }}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle-btn"
+                    onClick={() => setShowAuthConfirmPassword(prev => !prev)}
+                    style={{
+                      position: 'absolute',
+                      right: 12,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: 4,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: theme === 'light' ? '#64748b' : '#94a3b8'
+                    }}
+                    title={showAuthConfirmPassword ? 'Hide password' : 'Show password'}
+                    aria-label={showAuthConfirmPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showAuthConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {authMode === 'signup' && (
+              <div className="form-group">
+                <label className="form-label" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.5px' }}>ORGANIZATION NAME (OPTIONAL)</label>
                 <input
                   className="form-input"
                   type="text"
@@ -2203,9 +2269,51 @@ print("Result:", response.json())`;
               </div>
             )}
 
-            <button type="submit" className="primary" style={{ marginTop: 8 }} disabled={loading}>
-              {loading ? 'Please wait...' : authMode === 'signup' ? 'Create Organization & Sign Up' : 'Sign In'}
+            <button
+              type="submit"
+              className="primary"
+              style={{
+                marginTop: 8,
+                padding: '12px 18px',
+                fontWeight: 700,
+                fontSize: 14,
+                background: '#007007',
+                borderColor: '#007007'
+              }}
+              disabled={loading}
+            >
+              {loading
+                ? 'Please wait...'
+                : authMode === 'signup'
+                ? 'Create Account & Authorize Connectors'
+                : 'Sign In'}
             </button>
+
+            <div style={{ textAlign: 'center', marginTop: 8 }}>
+              {authMode === 'signup' ? (
+                <span style={{ fontSize: 13, color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                  Already have an account?{' '}
+                  <a
+                    href="#"
+                    onClick={e => { e.preventDefault(); setAuthMode('login'); setAuthError(null); }}
+                    style={{ color: '#007007', fontWeight: 700, textDecoration: 'none' }}
+                  >
+                    Sign In
+                  </a>
+                </span>
+              ) : (
+                <span style={{ fontSize: 13, color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                  Don&apos;t have an account?{' '}
+                  <a
+                    href="#"
+                    onClick={e => { e.preventDefault(); setAuthMode('signup'); setAuthError(null); }}
+                    style={{ color: '#007007', fontWeight: 700, textDecoration: 'none' }}
+                  >
+                    Sign Up
+                  </a>
+                </span>
+              )}
+            </div>
           </form>
         </div>
       </div>

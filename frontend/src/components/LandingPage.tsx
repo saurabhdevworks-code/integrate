@@ -46,7 +46,7 @@ import { Integration } from '../api/client';
 interface LandingPageProps {
   theme: 'dark' | 'light';
   toggleTheme: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (mode?: 'login' | 'signup') => void;
   integrations: Integration[];
 }
 
@@ -338,7 +338,7 @@ print("Result:", response.data)`,
 
           <button
             type="button"
-            onClick={onOpenAuth}
+            onClick={() => onOpenAuth('login')}
             style={{
               padding: '8px 16px',
               fontSize: 13,
@@ -356,7 +356,7 @@ print("Result:", response.data)`,
 
           <button
             type="button"
-            onClick={onOpenAuth}
+            onClick={() => onOpenAuth('signup')}
             style={{
               padding: '9px 18px',
               fontSize: 13,
@@ -478,7 +478,7 @@ print("Result:", response.data)`,
         }}>
           <button
             type="button"
-            onClick={onOpenAuth}
+            onClick={() => onOpenAuth('signup')}
             style={{
               padding: '14px 28px',
               fontSize: 15,
@@ -1128,7 +1128,7 @@ print("Result:", response.data)`,
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.borderColor = isDark ? 'rgba(255, 255, 255, 0.07)' : '#e2e8f0';
                 }}
-                onClick={onOpenAuth}
+                onClick={() => onOpenAuth('signup')}
               >
                 <div style={{
                   width: 44,
@@ -1175,7 +1175,7 @@ print("Result:", response.data)`,
         <div style={{ textAlign: 'center', marginTop: 32 }}>
           <button
             type="button"
-            onClick={onOpenAuth}
+            onClick={() => onOpenAuth('signup')}
             style={{
               padding: '12px 24px',
               fontSize: 13,
@@ -1523,7 +1523,7 @@ print("Result:", response.data)`,
           </p>
           <button
             type="button"
-            onClick={onOpenAuth}
+            onClick={() => onOpenAuth('signup')}
             style={{
               padding: '16px 36px',
               fontSize: 16,
@@ -1575,7 +1575,7 @@ print("Result:", response.data)`,
           <a href="#architecture" style={{ color: 'inherit', textDecoration: 'none' }}>Security</a>
           <button
             type="button"
-            onClick={onOpenAuth}
+            onClick={() => onOpenAuth('login')}
             style={{ background: 'none', border: 'none', color: '#007007', fontWeight: 700, cursor: 'pointer', fontSize: 12 }}
           >
             Developer Login →
