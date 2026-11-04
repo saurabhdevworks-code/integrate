@@ -3197,10 +3197,30 @@ print("Result:", response.json())`;
                 </div>
               )}
 
-              <div className="notice" style={{ marginBottom: 20 }}>
+              <div
+                className="notice"
+                style={{
+                  marginBottom: 20,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 14,
+                  padding: '14px 18px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    color: theme === 'light' ? '#007007' : '#4ade80'
+                  }}
+                >
+                  <ShieldAlert size={20} />
+                </div>
                 <div>
-                  <strong>Key Security Policy</strong>
-                  <p>
+                  <strong style={{ display: 'block', fontSize: 13, marginBottom: 2 }}>Key Security Policy</strong>
+                  <p style={{ margin: 0, lineHeight: 1.5 }}>
                     API keys are hashed at rest using SHA-256. Raw secrets are shown only once at creation time.
                     Always keep your live keys on your backend server and never expose them in client-side code.
                   </p>
