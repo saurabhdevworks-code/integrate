@@ -51,7 +51,8 @@ import {
   ToggleLeft,
   ToggleRight,
   Ban,
-  ArrowLeft
+  ArrowLeft,
+  Sparkles
 } from 'lucide-react';
 import {
   api,
@@ -3433,7 +3434,7 @@ print("Result:", response.json())`;
                   borderTop: '1px solid ' + (theme === 'light' ? '#f1f5f9' : '#273447')
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12 }}>
-                    <span style={{ fontSize: 16 }}>⚡</span>
+                    <Zap size={18} style={{ color: '#4ade80', flexShrink: 0 }} />
                     <div>
                       <strong style={{ display: 'block', fontSize: 13, color: theme === 'light' ? '#000000' : '#ffffff' }}>One Master Login</strong>
                       <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>1 login powers all 30+ connectors</span>
@@ -3441,7 +3442,7 @@ print("Result:", response.json())`;
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12 }}>
-                    <span style={{ fontSize: 16 }}>🛡️</span>
+                    <ShieldCheck size={18} style={{ color: '#38bdf8', flexShrink: 0 }} />
                     <div>
                       <strong style={{ display: 'block', fontSize: 13, color: theme === 'light' ? '#000000' : '#ffffff' }}>Zero OAuth Popups</strong>
                       <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>Connectors auto-accept master trust</span>
@@ -3449,7 +3450,7 @@ print("Result:", response.json())`;
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12 }}>
-                    <span style={{ fontSize: 16 }}>✨</span>
+                    <Sparkles size={18} style={{ color: '#fbbf24', flexShrink: 0 }} />
                     <div>
                       <strong style={{ display: 'block', fontSize: 13, color: theme === 'light' ? '#000000' : '#ffffff' }}>1-Click Toggle</strong>
                       <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>Flip ON in Marketplace to activate</span>
@@ -5585,10 +5586,11 @@ console.log('Emails found:', searchRes.output);`}
                     <button
                       type="button"
                       className="btn-secondary"
-                      style={{ padding: '3px 8px', fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 4 }}
+                      style={{ padding: '3px 8px', fontSize: 10, display: 'inline-flex', alignItems: 'center', gap: 6 }}
                       onClick={() => handlePrefillDemoCredentials(composioModalInteg.slug)}
                     >
-                      ⚡ Pre-fill Sandbox Demo Credentials
+                      <Zap size={11} style={{ color: '#4ade80' }} />
+                      <span>Pre-fill Sandbox Demo Credentials</span>
                     </button>
                   </div>
 
