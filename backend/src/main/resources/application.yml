@@ -1,0 +1,49 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    default: local
+  application:
+    name: integration-platform
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/integration_platform}
+    username: ${DB_USERNAME:platform}
+    password: ${DB_PASSWORD:platform_dev_password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when_authorized
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    expiration-ms: 86400000 # 24 hours
+  vault:
+    # 256-bit (32-byte) hex-encoded master key for AES-256-GCM token encryption
+    master-key: ${VAULT_MASTER_KEY:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}
+  oauth:
+    google:
+      client-id: ${GOOGLE_CLIENT_ID:your-google-client-id.apps.googleusercontent.com}
+      client-secret: ${GOOGLE_CLIENT_SECRET:your-google-client-secret}

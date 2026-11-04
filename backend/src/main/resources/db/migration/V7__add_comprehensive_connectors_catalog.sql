@@ -1,0 +1,30 @@
+-- V7: Expand Connectors Catalog to 30 Top-Tier Integrations
+INSERT INTO integrations (slug, name, category, auth_type, default_scopes, documentation_url)
+VALUES
+('google_drive', 'Google Drive', 'STORAGE', 'OAUTH2', 'https://www.googleapis.com/auth/drive.file', 'https://developers.google.com/drive'),
+('slack', 'Slack', 'COMMUNICATION', 'OAUTH2', 'chat:write channels:read users:read', 'https://api.slack.com/'),
+('notion', 'Notion', 'PRODUCTIVITY', 'OAUTH2', 'read_content update_content insert_content', 'https://developers.notion.com/'),
+('linear', 'Linear', 'DEVELOPER_TOOLS', 'OAUTH2', 'read,write,issues:create', 'https://developers.linear.app/'),
+('jira', 'Jira', 'DEVELOPER_TOOLS', 'OAUTH2', 'read:jira-work write:jira-work', 'https://developer.atlassian.com/cloud/jira/platform/rest/v3/'),
+('discord', 'Discord', 'COMMUNICATION', 'OAUTH2', 'bot messages.read webhook.incoming', 'https://discord.com/developers/docs/intro'),
+('stripe', 'Stripe', 'FINANCE', 'OAUTH2', 'read_write', 'https://stripe.com/docs/api'),
+('hubspot', 'HubSpot', 'CRM', 'OAUTH2', 'crm.objects.contacts.read crm.objects.deals.read', 'https://developers.hubspot.com/docs/api/overview'),
+('salesforce', 'Salesforce', 'CRM', 'OAUTH2', 'api refresh_token offline_access', 'https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/'),
+('airtable', 'Airtable', 'PRODUCTIVITY', 'OAUTH2', 'data.records:read data.records:write', 'https://airtable.com/developers/web/api/introduction'),
+('trello', 'Trello', 'PRODUCTIVITY', 'OAUTH2', 'read,write', 'https://developer.atlassian.com/cloud/trello/rest/'),
+('asana', 'Asana', 'PRODUCTIVITY', 'OAUTH2', 'default', 'https://developers.asana.com/reference/rest-api-reference'),
+('clickup', 'ClickUp', 'PRODUCTIVITY', 'OAUTH2', 'task:read task:write', 'https://clickup.com/api'),
+('gitlab', 'GitLab', 'DEVELOPER_TOOLS', 'OAUTH2', 'api read_user', 'https://docs.gitlab.com/ee/api/rest/'),
+('zoom', 'Zoom', 'COMMUNICATION', 'OAUTH2', 'meeting:write meeting:read', 'https://developers.zoom.us/docs/api/'),
+('ms_teams', 'Microsoft Teams', 'COMMUNICATION', 'OAUTH2', 'Chat.ReadWrite ChannelMessage.Send', 'https://learn.microsoft.com/en-us/graph/teams-concept-overview'),
+('ms_outlook', 'Microsoft Outlook', 'COMMUNICATION', 'OAUTH2', 'Mail.ReadWrite Mail.Send', 'https://learn.microsoft.com/en-us/graph/outlook-mail-concept-overview'),
+('zendesk', 'Zendesk', 'CRM', 'OAUTH2', 'read write', 'https://developer.zendesk.com/api-reference/'),
+('shopify', 'Shopify', 'FINANCE', 'OAUTH2', 'read_orders write_products', 'https://shopify.dev/docs/api/admin-rest'),
+('figma', 'Figma', 'DESIGN', 'OAUTH2', 'files:read comments:read', 'https://www.figma.com/developers/api'),
+('supabase', 'Supabase', 'DEVELOPER_TOOLS', 'OAUTH2', 'all', 'https://supabase.com/docs/reference/api'),
+('dropbox', 'Dropbox', 'STORAGE', 'OAUTH2', 'files.content.write files.content.read', 'https://www.dropbox.com/developers/documentation'),
+('twitter', 'Twitter / X', 'MARKETING', 'OAUTH2', 'tweet.read tweet.write users.read', 'https://developer.x.com/en/docs'),
+('linkedin', 'LinkedIn', 'MARKETING', 'OAUTH2', 'w_member_social r_liteprofile', 'https://learn.microsoft.com/en-us/linkedin/'),
+('mailchimp', 'Mailchimp', 'MARKETING', 'OAUTH2', 'campaigns:read campaigns:write', 'https://mailchimp.com/developer/marketing/api/'),
+('intercom', 'Intercom', 'CRM', 'OAUTH2', 'read write', 'https://developers.intercom.com/docs')
+ON CONFLICT (slug) DO NOTHING;

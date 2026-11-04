@@ -1,0 +1,29 @@
+{
+  "name": "@integrationplatform/sdk",
+  "version": "0.1.0",
+  "description": "Official TypeScript SDK for the Integration-as-a-Service Platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "integration",
+    "composio",
+    "oauth",
+    "saas",
+    "gmail",
+    "github",
+    "calendar",
+    "sdk"
+  ],
+  "author": "Integration Platform Team",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
