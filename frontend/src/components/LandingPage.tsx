@@ -42,6 +42,7 @@ import {
   FileSpreadsheet
 } from 'lucide-react';
 import { Integration } from '../api/client';
+import { renderRealIntegrationIcon } from '../App';
 
 interface LandingPageProps {
   theme: 'dark' | 'light';
@@ -1163,18 +1164,7 @@ print("Result:", response.data)`,
                   flexShrink: 0,
                   overflow: 'hidden'
                 }}>
-                  {hasIcon && item.iconUrl ? (
-                    <img
-                      src={item.iconUrl}
-                      alt={item.name}
-                      style={{ width: 26, height: 26, objectFit: 'contain' }}
-                      onError={e => {
-                        (e.currentTarget as HTMLElement).style.display = 'none';
-                      }}
-                    />
-                  ) : (
-                    <Boxes size={22} style={{ color: isDark ? '#4ade80' : '#007007' }} />
-                  )}
+                  {renderRealIntegrationIcon(item.slug, 28)}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>

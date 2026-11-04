@@ -135,30 +135,30 @@ export const DEFAULT_CONNECTORS: Integration[] = [
   { id: '3', slug: 'google_calendar', name: 'Google Calendar', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'https://www.googleapis.com/auth/calendar.events', iconUrl: '/icons/calendar.svg', documentationUrl: 'https://developers.google.com/calendar/api', enabled: true, configured: true },
   { id: '4', slug: 'google_drive', name: 'Google Drive', category: 'STORAGE', authType: 'OAUTH2', defaultScopes: 'https://www.googleapis.com/auth/drive.file', iconUrl: '/icons/drive.svg', documentationUrl: 'https://developers.google.com/drive', enabled: true, configured: true },
   { id: '5', slug: 'slack', name: 'Slack', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'chat:write,channels:read,users:read', iconUrl: '/icons/slack.svg', documentationUrl: 'https://api.slack.com/', enabled: true, configured: true },
-  { id: '6', slug: 'notion', name: 'Notion', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'read_content,update_content,insert_content', iconUrl: null, documentationUrl: 'https://developers.notion.com/', enabled: true, configured: true },
-  { id: '7', slug: 'linear', name: 'Linear', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'read,write,issues:create', iconUrl: null, documentationUrl: 'https://developers.linear.app/', enabled: true, configured: true },
-  { id: '8', slug: 'jira', name: 'Jira', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'read:jira-work,write:jira-work', iconUrl: null, documentationUrl: 'https://developer.atlassian.com/cloud/jira/platform/rest/v3/', enabled: true, configured: true },
-  { id: '9', slug: 'discord', name: 'Discord', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'bot,messages.read,webhook.incoming', iconUrl: null, documentationUrl: 'https://discord.com/developers/docs/intro', enabled: true, configured: true },
-  { id: '10', slug: 'stripe', name: 'Stripe', category: 'FINANCE', authType: 'OAUTH2', defaultScopes: 'read_write', iconUrl: null, documentationUrl: 'https://stripe.com/docs/api', enabled: true, configured: true },
-  { id: '11', slug: 'hubspot', name: 'HubSpot', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'crm.objects.contacts.read,crm.objects.deals.read', iconUrl: null, documentationUrl: 'https://developers.hubspot.com/docs/api/overview', enabled: true, configured: true },
+  { id: '6', slug: 'notion', name: 'Notion', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'read_content,update_content,insert_content', iconUrl: 'https://cdn.simpleicons.org/notion', documentationUrl: 'https://developers.notion.com/', enabled: true, configured: true },
+  { id: '7', slug: 'linear', name: 'Linear', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'read,write,issues:create', iconUrl: 'https://cdn.simpleicons.org/linear', documentationUrl: 'https://developers.linear.app/', enabled: true, configured: true },
+  { id: '8', slug: 'jira', name: 'Jira', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'read:jira-work,write:jira-work', iconUrl: 'https://cdn.simpleicons.org/jira', documentationUrl: 'https://developer.atlassian.com/cloud/jira/platform/rest/v3/', enabled: true, configured: true },
+  { id: '9', slug: 'discord', name: 'Discord', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'bot,messages.read,webhook.incoming', iconUrl: 'https://cdn.simpleicons.org/discord', documentationUrl: 'https://discord.com/developers/docs/intro', enabled: true, configured: true },
+  { id: '10', slug: 'stripe', name: 'Stripe', category: 'FINANCE', authType: 'OAUTH2', defaultScopes: 'read_write', iconUrl: 'https://cdn.simpleicons.org/stripe', documentationUrl: 'https://stripe.com/docs/api', enabled: true, configured: true },
+  { id: '11', slug: 'hubspot', name: 'HubSpot', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'crm.objects.contacts.read,crm.objects.deals.read', iconUrl: 'https://cdn.simpleicons.org/hubspot', documentationUrl: 'https://developers.hubspot.com/docs/api/overview', enabled: true, configured: true },
   { id: '12', slug: 'salesforce', name: 'Salesforce', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'api,refresh_token,offline_access', iconUrl: '/icons/salesforce.svg', documentationUrl: 'https://developer.salesforce.com/', enabled: true, configured: true },
-  { id: '13', slug: 'airtable', name: 'Airtable', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'data.records:read,data.records:write', iconUrl: null, documentationUrl: 'https://airtable.com/developers/web/api/introduction', enabled: true, configured: true },
-  { id: '14', slug: 'trello', name: 'Trello', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: null, documentationUrl: 'https://developer.atlassian.com/cloud/trello/rest/', enabled: true, configured: true },
-  { id: '15', slug: 'asana', name: 'Asana', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'default', iconUrl: null, documentationUrl: 'https://developers.asana.com/', enabled: true, configured: true },
-  { id: '16', slug: 'clickup', name: 'ClickUp', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'task:read,task:write', iconUrl: null, documentationUrl: 'https://clickup.com/api', enabled: true, configured: true },
-  { id: '17', slug: 'gitlab', name: 'GitLab', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'api,read_user', iconUrl: null, documentationUrl: 'https://docs.gitlab.com/ee/api/rest/', enabled: true, configured: true },
-  { id: '18', slug: 'zoom', name: 'Zoom', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'meeting:write,meeting:read', iconUrl: null, documentationUrl: 'https://developers.zoom.us/docs/api/', enabled: true, configured: true },
+  { id: '13', slug: 'airtable', name: 'Airtable', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'data.records:read,data.records:write', iconUrl: 'https://cdn.simpleicons.org/airtable', documentationUrl: 'https://airtable.com/developers/web/api/introduction', enabled: true, configured: true },
+  { id: '14', slug: 'trello', name: 'Trello', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: 'https://cdn.simpleicons.org/trello', documentationUrl: 'https://developer.atlassian.com/cloud/trello/rest/', enabled: true, configured: true },
+  { id: '15', slug: 'asana', name: 'Asana', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'default', iconUrl: 'https://cdn.simpleicons.org/asana', documentationUrl: 'https://developers.asana.com/', enabled: true, configured: true },
+  { id: '16', slug: 'clickup', name: 'ClickUp', category: 'PRODUCTIVITY', authType: 'OAUTH2', defaultScopes: 'task:read,task:write', iconUrl: 'https://cdn.simpleicons.org/clickup', documentationUrl: 'https://clickup.com/api', enabled: true, configured: true },
+  { id: '17', slug: 'gitlab', name: 'GitLab', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'api,read_user', iconUrl: 'https://cdn.simpleicons.org/gitlab', documentationUrl: 'https://docs.gitlab.com/ee/api/rest/', enabled: true, configured: true },
+  { id: '18', slug: 'zoom', name: 'Zoom', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'meeting:write,meeting:read', iconUrl: 'https://cdn.simpleicons.org/zoom', documentationUrl: 'https://developers.zoom.us/docs/api/', enabled: true, configured: true },
   { id: '19', slug: 'ms_teams', name: 'Microsoft Teams', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'Chat.ReadWrite,ChannelMessage.Send', iconUrl: '/icons/teams.svg', documentationUrl: 'https://learn.microsoft.com/en-us/graph/teams-concept-overview', enabled: true, configured: true },
   { id: '20', slug: 'ms_outlook', name: 'Microsoft Outlook', category: 'COMMUNICATION', authType: 'OAUTH2', defaultScopes: 'Mail.ReadWrite,Mail.Send', iconUrl: '/icons/outlook.svg', documentationUrl: 'https://learn.microsoft.com/en-us/graph/outlook-mail-concept-overview', enabled: true, configured: true },
-  { id: '21', slug: 'zendesk', name: 'Zendesk', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: null, documentationUrl: 'https://developer.zendesk.com/api-reference/', enabled: true, configured: true },
-  { id: '22', slug: 'shopify', name: 'Shopify', category: 'FINANCE', authType: 'OAUTH2', defaultScopes: 'read_orders,write_products', iconUrl: null, documentationUrl: 'https://shopify.dev/docs/api/admin-rest', enabled: true, configured: true },
-  { id: '23', slug: 'figma', name: 'Figma', category: 'DESIGN', authType: 'OAUTH2', defaultScopes: 'files:read,comments:read', iconUrl: null, documentationUrl: 'https://www.figma.com/developers/api', enabled: true, configured: true },
-  { id: '24', slug: 'supabase', name: 'Supabase', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'all', iconUrl: null, documentationUrl: 'https://supabase.com/docs/reference/api', enabled: true, configured: true },
-  { id: '25', slug: 'dropbox', name: 'Dropbox', category: 'STORAGE', authType: 'OAUTH2', defaultScopes: 'files.content.write,files.content.read', iconUrl: null, documentationUrl: 'https://www.dropbox.com/developers/documentation', enabled: true, configured: true },
-  { id: '26', slug: 'twitter', name: 'Twitter / X', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'tweet.read,tweet.write,users.read', iconUrl: null, documentationUrl: 'https://developer.x.com/en/docs', enabled: true, configured: true },
+  { id: '21', slug: 'zendesk', name: 'Zendesk', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: 'https://cdn.simpleicons.org/zendesk', documentationUrl: 'https://developer.zendesk.com/api-reference/', enabled: true, configured: true },
+  { id: '22', slug: 'shopify', name: 'Shopify', category: 'FINANCE', authType: 'OAUTH2', defaultScopes: 'read_orders,write_products', iconUrl: 'https://cdn.simpleicons.org/shopify', documentationUrl: 'https://shopify.dev/docs/api/admin-rest', enabled: true, configured: true },
+  { id: '23', slug: 'figma', name: 'Figma', category: 'DESIGN', authType: 'OAUTH2', defaultScopes: 'files:read,comments:read', iconUrl: 'https://cdn.simpleicons.org/figma', documentationUrl: 'https://www.figma.com/developers/api', enabled: true, configured: true },
+  { id: '24', slug: 'supabase', name: 'Supabase', category: 'DEVELOPER_TOOLS', authType: 'OAUTH2', defaultScopes: 'all', iconUrl: 'https://cdn.simpleicons.org/supabase', documentationUrl: 'https://supabase.com/docs/reference/api', enabled: true, configured: true },
+  { id: '25', slug: 'dropbox', name: 'Dropbox', category: 'STORAGE', authType: 'OAUTH2', defaultScopes: 'files.content.write,files.content.read', iconUrl: 'https://cdn.simpleicons.org/dropbox', documentationUrl: 'https://www.dropbox.com/developers/documentation', enabled: true, configured: true },
+  { id: '26', slug: 'twitter', name: 'Twitter / X', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'tweet.read,tweet.write,users.read', iconUrl: 'https://cdn.simpleicons.org/x', documentationUrl: 'https://developer.x.com/en/docs', enabled: true, configured: true },
   { id: '27', slug: 'linkedin', name: 'LinkedIn', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'w_member_social,r_liteprofile', iconUrl: '/icons/linkedin.svg', documentationUrl: 'https://learn.microsoft.com/en-us/linkedin/', enabled: true, configured: true },
-  { id: '28', slug: 'mailchimp', name: 'Mailchimp', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'campaigns:read,campaigns:write', iconUrl: null, documentationUrl: 'https://mailchimp.com/developer/marketing/api/', enabled: true, configured: true },
-  { id: '29', slug: 'intercom', name: 'Intercom', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: null, documentationUrl: 'https://developers.intercom.com/docs', enabled: true, configured: true },
+  { id: '28', slug: 'mailchimp', name: 'Mailchimp', category: 'MARKETING', authType: 'OAUTH2', defaultScopes: 'campaigns:read,campaigns:write', iconUrl: 'https://cdn.simpleicons.org/mailchimp', documentationUrl: 'https://mailchimp.com/developer/marketing/api/', enabled: true, configured: true },
+  { id: '29', slug: 'intercom', name: 'Intercom', category: 'CRM', authType: 'OAUTH2', defaultScopes: 'read,write', iconUrl: 'https://cdn.simpleicons.org/intercom', documentationUrl: 'https://developers.intercom.com/docs', enabled: true, configured: true },
   { id: '30', slug: 'canva', name: 'Canva', category: 'DESIGN', authType: 'OAUTH2', defaultScopes: 'design:content:read,design:content:write,asset:read,asset:write', iconUrl: '/icons/canva.png', documentationUrl: 'https://www.canva.dev/docs/connect/', enabled: true, configured: true },
 
   // Job Portals & Recruiting
@@ -602,29 +602,92 @@ export function getConnectorDetails(slug: string, fallbackName: string): Connect
   };
 }
 
-function renderRealIntegrationIcon(slug: string, size = 34) {
+export const CONNECTOR_DOMAINS: Record<string, string> = {
+  gmail: 'mail.google.com',
+  github: 'github.com',
+  google_calendar: 'calendar.google.com',
+  calendar: 'calendar.google.com',
+  google_drive: 'drive.google.com',
+  drive: 'drive.google.com',
+  slack: 'slack.com',
+  notion: 'notion.so',
+  linear: 'linear.app',
+  jira: 'atlassian.com',
+  discord: 'discord.com',
+  stripe: 'stripe.com',
+  hubspot: 'hubspot.com',
+  salesforce: 'salesforce.com',
+  airtable: 'airtable.com',
+  trello: 'trello.com',
+  asana: 'asana.com',
+  clickup: 'clickup.com',
+  gitlab: 'gitlab.com',
+  zoom: 'zoom.us',
+  ms_teams: 'teams.microsoft.com',
+  teams: 'teams.microsoft.com',
+  ms_outlook: 'outlook.live.com',
+  outlook: 'outlook.live.com',
+  zendesk: 'zendesk.com',
+  shopify: 'shopify.com',
+  figma: 'figma.com',
+  supabase: 'supabase.com',
+  dropbox: 'dropbox.com',
+  twitter: 'x.com',
+  linkedin: 'linkedin.com',
+  mailchimp: 'mailchimp.com',
+  intercom: 'intercom.com',
+  canva: 'canva.com',
+  indeed: 'indeed.com',
+  glassdoor: 'glassdoor.com',
+  greenhouse: 'greenhouse.io',
+  lever: 'lever.co',
+  workday: 'workday.com',
+  ziprecruiter: 'ziprecruiter.com',
+  wellfound: 'wellfound.com',
+  smartrecruiters: 'smartrecruiters.com',
+  breezy_hr: 'breezy.hr',
+  breezy: 'breezy.hr',
+  workable: 'workable.com',
+  instagram: 'instagram.com',
+  facebook: 'facebook.com',
+  youtube: 'youtube.com',
+  tiktok: 'tiktok.com',
+  reddit: 'reddit.com',
+  pinterest: 'pinterest.com',
+  threads: 'threads.net',
+  whatsapp: 'whatsapp.com',
+  snapchat: 'snapchat.com',
+  bluesky: 'bsky.app'
+};
+
+export function renderRealIntegrationIcon(slug: string, size = 34) {
   const meta = getConnectorDetails(slug, slug);
+  const s = (slug || '').toLowerCase();
+  const domain = CONNECTOR_DOMAINS[slug] || `${s.replace(/[^a-z0-9]/g, '')}.com`;
+  const fallbackUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+
   return (
     <img
       src={meta.iconUrl}
       alt={slug}
       width={size}
       height={size}
+      loading="lazy"
       style={{ width: size, height: size, objectFit: 'contain', display: 'block' }}
       onError={(e) => {
-        const s = (slug || '').toLowerCase();
-        if (s.includes('gmail')) (e.currentTarget as HTMLImageElement).src = '/icons/gmail.svg';
-        else if (s.includes('github')) (e.currentTarget as HTMLImageElement).src = '/icons/github.svg';
-        else if (s.includes('calendar')) (e.currentTarget as HTMLImageElement).src = '/icons/calendar.svg';
-        else if (s.includes('drive')) (e.currentTarget as HTMLImageElement).src = '/icons/drive.svg';
-        else if (s.includes('salesforce')) (e.currentTarget as HTMLImageElement).src = '/icons/salesforce.svg';
-        else if (s.includes('canva')) (e.currentTarget as HTMLImageElement).src = '/icons/canva.png';
-        else if (s.includes('slack')) (e.currentTarget as HTMLImageElement).src = '/icons/slack.svg';
-        else if (s.includes('linkedin')) (e.currentTarget as HTMLImageElement).src = '/icons/linkedin.svg';
-        else if (s.includes('teams')) (e.currentTarget as HTMLImageElement).src = '/icons/teams.svg';
-        else if (s.includes('outlook')) (e.currentTarget as HTMLImageElement).src = '/icons/outlook.svg';
-        else {
-          (e.currentTarget as HTMLElement).style.display = 'none';
+        const target = e.currentTarget as HTMLImageElement;
+        if (s.includes('gmail')) target.src = '/icons/gmail.svg';
+        else if (s.includes('github')) target.src = '/icons/github.svg';
+        else if (s.includes('calendar')) target.src = '/icons/calendar.svg';
+        else if (s.includes('drive')) target.src = '/icons/drive.svg';
+        else if (s.includes('salesforce')) target.src = '/icons/salesforce.svg';
+        else if (s.includes('canva')) target.src = '/icons/canva.png';
+        else if (s.includes('slack')) target.src = '/icons/slack.svg';
+        else if (s.includes('linkedin')) target.src = '/icons/linkedin.svg';
+        else if (s.includes('teams')) target.src = '/icons/teams.svg';
+        else if (s.includes('outlook')) target.src = '/icons/outlook.svg';
+        else if (target.src !== fallbackUrl) {
+          target.src = fallbackUrl;
         }
       }}
     />
