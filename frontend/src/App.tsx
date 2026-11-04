@@ -2046,6 +2046,7 @@ print("Result:", response.json())`;
             <img
               src={theme === 'light' ? './logo-dark.png' : './logo-white.png'}
               alt="integrate"
+              className="brand-logo-animated"
               style={{ height: 32, width: 'auto', objectFit: 'contain' }}
             />
           </div>
@@ -2184,6 +2185,7 @@ print("Result:", response.json())`;
           <img
             src={theme === 'light' ? './logo-dark.png' : './logo-white.png'}
             alt="integrate"
+            className="brand-logo-animated"
             style={{ height: 26, width: 'auto', objectFit: 'contain' }}
           />
         </div>

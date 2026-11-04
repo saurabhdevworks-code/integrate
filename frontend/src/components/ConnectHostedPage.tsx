@@ -127,6 +127,7 @@ export const ConnectHostedPage: React.FC = () => {
             <img
               src="./logo-white.png"
               alt="integrate"
+              className="brand-logo-animated"
               style={{ height: 26, width: 'auto', objectFit: 'contain' }}
             />
             <div style={{ borderLeft: '1px solid #29384e', paddingLeft: 10 }}>

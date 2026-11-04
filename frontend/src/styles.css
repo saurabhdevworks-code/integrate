@@ -537,6 +537,40 @@ body{margin:0;min-width:320px}.shell{min-height:100vh;display:flex;background:#0
   border-bottom: 1px solid #e2e8f0 !important;
 }
 
+/* One-Time Logo Entrance Animation */
+.brand-logo-animated {
+  display: inline-block;
+  animation: logoOneTimeEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s 1 normal both;
+  will-change: transform, opacity, filter;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+  cursor: pointer;
+}
+
+.brand-logo-animated:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 4px 12px rgba(74, 222, 128, 0.25));
+}
+
+@keyframes logoOneTimeEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.92);
+    filter: blur(5px);
+  }
+  50% {
+    opacity: 0.95;
+    filter: blur(0px) drop-shadow(0 0 10px rgba(74, 222, 128, 0.4));
+  }
+  75% {
+    transform: translateY(1px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
 [data-theme="light"] .crumb {
   color: #ffffff !important;
 }
