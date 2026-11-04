@@ -41,6 +41,7 @@ import {
   SlidersHorizontal,
   ChevronDown,
   ChevronUp,
+  ChevronRight,
   RotateCcw,
   FileJson,
   Lock,
@@ -71,6 +72,7 @@ import {
 } from './api/client';
 import { ConnectHostedPage } from './components/ConnectHostedPage';
 import { LandingPage } from './components/LandingPage';
+import { getAppTools } from './connectorIcons';
 
 function getUserDisplayName(email: string | null): string {
   if (!email) return 'Developer';
@@ -702,7 +704,9 @@ export default function App() {
 
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('userEmail'));
-  const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'tools' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs'>('overview');
+  const [selectedAppForTools, setSelectedAppForTools] = useState<Integration | null>(null);
+  const [modalToolSearch, setModalToolSearch] = useState('');
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
@@ -2620,14 +2624,6 @@ print("Result:", response.json())`;
             <span className="nav-count">{integrations.filter(i => i.configured).length}</span>
           </a>
           <a
-            className={activeTab === 'tools' ? 'active' : ''}
-            href="#"
-            onClick={e => { e.preventDefault(); setActiveTab('tools'); }}
-          >
-            <Wrench size={17} /> Tool Explorer
-            <span className="nav-count">{tools.length}</span>
-          </a>
-          <a
             className={activeTab === 'executions' ? 'active' : ''}
             href="#"
             onClick={e => { e.preventDefault(); setActiveTab('executions'); }}
@@ -3066,7 +3062,7 @@ print("Result:", response.json())`;
                         cursor: 'pointer',
                         transition: 'all 0.15s ease',
                       }}
-                      onClick={() => setActiveTab('tools')}
+                      onClick={() => setActiveTab('integrations')}
                     >
                       <div
                         style={{
@@ -3081,14 +3077,14 @@ print("Result:", response.json())`;
                           flexShrink: 0,
                         }}
                       >
-                        <Wrench size={18} />
+                        <Cable size={18} />
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 2, minWidth: 0, flex: 1 }}>
                         <strong style={{ fontSize: 13, color: theme === 'light' ? '#000000' : '#ffffff', fontWeight: 600 }}>
-                          Tool Explorer
+                          Browse Connectors & Actions
                         </strong>
                         <span style={{ fontSize: 11, color: theme === 'light' ? '#000000' : '#ffffff', lineHeight: 1.3 }}>
-                          Run actions interactively against connected accounts
+                          Inspect available actions and run tools interactively
                         </span>
                       </div>
                     </button>
@@ -3275,11 +3271,12 @@ print("Result:", response.json())`;
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    alignSelf: 'center',
                     flexShrink: 0,
                     color: theme === 'light' ? '#007007' : '#4ade80'
                   }}
                 >
-                  <ShieldAlert size={20} />
+                  <ShieldAlert size={22} />
                 </div>
                 <div>
                   <strong style={{ display: 'block', fontSize: 13, marginBottom: 2 }}>Key Security Policy</strong>
@@ -3607,6 +3604,7 @@ print("Result:", response.json())`;
                       const isEnabled = isMasterSSOConnected && (enabledSlugs.has(integ.slug) || isConnected);
 
                       const meta = getConnectorDetails(integ.slug, integ.name);
+                      const appTools = getAppTools(integ, tools);
 
                       return (
                         <div key={integ.id || integ.slug} className="integration-market-card">
@@ -3615,14 +3613,49 @@ print("Result:", response.json())`;
                             {renderRealIntegrationIcon(integ.slug, 34)}
                           </div>
 
-                          {/* Middle: Title with Verified Badge, Subheading, Author */}
+                          {/* Middle: Title with Verified Badge, Subheading, Author & Actions Pill */}
                           <div className="integration-card-info">
                             <div className="integration-card-title-row">
                               <h3 className="integration-card-title">{integ.name}</h3>
                               <VerifiedBadge isEnabled={isEnabled} />
                             </div>
                             <p className="integration-card-subheading">{meta.subheading}</p>
-                            <span className="integration-card-author">{meta.author}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 4, flexWrap: 'wrap' }}>
+                              <span className="integration-card-author">{meta.author}</span>
+                              <span style={{ color: theme === 'light' ? '#cbd5e1' : '#334155', fontSize: 12, lineHeight: 1 }}>|</span>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedAppForTools(integ);
+                                }}
+                                title={`Explore ${appTools.length} tools supported by ${integ.name}`}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  padding: 0,
+                                  margin: 0,
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: 4,
+                                  fontSize: 12,
+                                  fontWeight: 500,
+                                  color: theme === 'light' ? '#64748b' : '#94a3b8',
+                                  cursor: 'pointer',
+                                  transition: 'color 0.15s ease',
+                                  outline: 'none'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.color = theme === 'light' ? '#007007' : '#4ade80';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.color = theme === 'light' ? '#64748b' : '#94a3b8';
+                                }}
+                              >
+                                <Wrench size={11} style={{ flexShrink: 0 }} />
+                                <span>{appTools.length} Tools</span>
+                              </button>
+                            </div>
                           </div>
 
                           {/* Right: Toggle Switch (Green ON #007007, Grey OFF) */}
@@ -3869,22 +3902,6 @@ print("Result:", response.json())`;
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <button
-                          type="button"
-                          className="btn-secondary"
-                          onClick={() => setActiveTab('tools')}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            fontSize: 12,
-                            padding: '7px 13px',
-                            color: theme === 'light' ? '#0f172a' : '#ffffff'
-                          }}
-                        >
-                          <Wrench size={14} />
-                          <span>Tool Explorer</span>
-                        </button>
                         <button
                           type="button"
                           className="primary"
@@ -4168,10 +4185,9 @@ print("Result:", response.json())`;
                                           color: theme === 'light' ? '#0f172a' : '#ffffff'
                                         }}
                                         onClick={() => {
-                                          setToolFilterIntegration(integ.slug);
-                                          setActiveTab('tools');
+                                          setSelectedAppForTools(integ);
                                         }}
-                                        title={`Test & run ${integ.name} tools in Tool Explorer`}
+                                        title={`View & test ${integ.name} actions`}
                                       >
                                         <span>Run Tools</span>
                                         <Wrench size={11} />
@@ -4211,357 +4227,6 @@ print("Result:", response.json())`;
               })()}
             </>
           )}
-
-          {/* TAB 6: TOOL EXPLORER & RUNNER (Milestone 3) */}
-          {activeTab === 'tools' && (() => {
-            const filteredTools = tools.filter(tool => {
-              // 1. Integration filter
-              if (toolFilterIntegration !== 'ALL') {
-                const integSlug = (tool.integrationSlug || '').toLowerCase();
-                const toolSlug = (tool.slug || '').toLowerCase();
-                const filter = toolFilterIntegration.toLowerCase();
-                if (filter === 'calendar') {
-                  if (!toolSlug.startsWith('calendar') && !integSlug.includes('calendar')) return false;
-                } else if (filter === 'drive' || filter === 'google_drive') {
-                  if (!toolSlug.includes('drive') && !integSlug.includes('drive')) return false;
-                } else {
-                  if (!toolSlug.startsWith(filter) && !integSlug.includes(filter)) return false;
-                }
-              }
-              // 2. Risk filter
-              if (toolFilterRisk !== 'ALL') {
-                if (toolFilterRisk === 'HIGH' && (!tool.requiresApproval && tool.riskLevel !== 'HIGH')) return false;
-                if (toolFilterRisk === 'LOW' && (tool.requiresApproval || tool.riskLevel === 'HIGH')) return false;
-              }
-              // 3. Search query
-              if (toolSearchQuery.trim()) {
-                const query = toolSearchQuery.toLowerCase().trim();
-                const inSlug = (tool.slug || '').toLowerCase().includes(query);
-                const inName = (tool.name || '').toLowerCase().includes(query);
-                const inDesc = (tool.description || '').toLowerCase().includes(query);
-                const inIntegration = (tool.integrationName || '').toLowerCase().includes(query);
-                const inParams = getToolProperties(tool).some(p => p.name.toLowerCase().includes(query));
-                if (!inSlug && !inName && !inDesc && !inIntegration && !inParams) {
-                  return false;
-                }
-              }
-              return true;
-            });
-
-            return (
-              <>
-                <div className="heading-row">
-                  <div>
-                    <h1>Tool Explorer & Action Runner</h1>
-                    <p className="sub">
-                      Discover available integration tools, inspect JSON Schema parameter definitions, and test action executions interactively.
-                    </p>
-                  </div>
-                  <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    <button
-                      className="btn-secondary"
-                      onClick={() => activeProject && loadTools(activeProject.id)}
-                      style={{ display: 'flex', alignItems: 'center', gap: 6 }}
-                    >
-                      <RefreshCw size={13} /> Refresh Tools
-                    </button>
-                  </div>
-                </div>
-
-                {/* SEARCH & FILTER CONTROLS TOOLBAR */}
-                <div className="panel" style={{ padding: '16px 20px', marginBottom: 20, minHeight: 'auto' }}>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', justifyContent: 'space-between' }}>
-                    {/* Search input */}
-                    <div className="tool-search-box">
-                      <Search className="tool-search-icon" size={15} />
-                      <input
-                        type="text"
-                        placeholder="Search tools by name, slug (e.g. search_emails), or parameter..."
-                        value={toolSearchQuery}
-                        onChange={e => setToolSearchQuery(e.target.value)}
-                      />
-                      {toolSearchQuery && (
-                        <button className="tool-search-clear" onClick={() => setToolSearchQuery('')}>
-                          <X size={14} />
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Risk Level Pills */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: theme === 'light' ? '#000000' : '#ffffff', textTransform: 'uppercase', letterSpacing: 0.5 }}>Risk:</span>
-                      <button
-                        className={`filter-pill ${toolFilterRisk === 'ALL' ? 'active' : ''}`}
-                        onClick={() => setToolFilterRisk('ALL')}
-                      >
-                        All
-                      </button>
-                      <button
-                        className={`filter-pill ${toolFilterRisk === 'LOW' ? 'active' : ''}`}
-                        onClick={() => setToolFilterRisk('LOW')}
-                      >
-                        Instant (Low)
-                      </button>
-                      <button
-                        className={`filter-pill ${toolFilterRisk === 'HIGH' ? 'active' : ''}`}
-                        onClick={() => setToolFilterRisk('HIGH')}
-                      >
-                        Approval Required
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Integration Filters Row */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', marginTop: 14, paddingTop: 14, borderTop: '1px solid #202b3b' }}>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: theme === 'light' ? '#000000' : '#ffffff', textTransform: 'uppercase', letterSpacing: 0.5, marginRight: 4 }}>
-                      Providers:
-                    </span>
-                    <button
-                      className={`filter-pill ${toolFilterIntegration === 'ALL' ? 'active' : ''}`}
-                      onClick={() => setToolFilterIntegration('ALL')}
-                    >
-                      All Tools <span className="filter-pill-badge">{tools.length}</span>
-                    </button>
-                    <button
-                      className={`filter-pill ${toolFilterIntegration === 'gmail' ? 'active' : ''}`}
-                      onClick={() => setToolFilterIntegration('gmail')}
-                    >
-                      <Mail size={13} style={{ color: theme === 'light' ? '#000000' : '#ffffff' }} /> Gmail
-                      <span className="filter-pill-badge">
-                        {tools.filter(t => t.slug.startsWith('gmail') || t.integrationSlug === 'gmail').length}
-                      </span>
-                    </button>
-                    <button
-                      className={`filter-pill ${toolFilterIntegration === 'github' ? 'active' : ''}`}
-                      onClick={() => setToolFilterIntegration('github')}
-                    >
-                      <Github size={13} /> GitHub
-                      <span className="filter-pill-badge">
-                        {tools.filter(t => t.slug.startsWith('github') || t.integrationSlug === 'github').length}
-                      </span>
-                    </button>
-                    <button
-                      className={`filter-pill ${toolFilterIntegration === 'calendar' ? 'active' : ''}`}
-                      onClick={() => setToolFilterIntegration('calendar')}
-                    >
-                      <Calendar size={13} style={{ color: theme === 'light' ? '#000000' : '#ffffff' }} /> Google Calendar
-                      <span className="filter-pill-badge">
-                        {tools.filter(t => t.slug.startsWith('calendar') || t.integrationSlug.includes('calendar')).length}
-                      </span>
-                    </button>
-                    <button
-                      className={`filter-pill ${toolFilterIntegration === 'drive' || toolFilterIntegration === 'google_drive' ? 'active' : ''}`}
-                      onClick={() => setToolFilterIntegration('drive')}
-                    >
-                      <img src="/icons/drive.svg" width={13} height={13} alt="" style={{ objectFit: 'contain' }} /> Google Drive
-                      <span className="filter-pill-badge">
-                        {tools.filter(t => t.slug.startsWith('google_drive') || t.slug.startsWith('drive') || t.integrationSlug?.includes('drive')).length}
-                      </span>
-                    </button>
-                    <button
-                      className={`filter-pill ${toolFilterIntegration === 'canva' ? 'active' : ''}`}
-                      onClick={() => setToolFilterIntegration('canva')}
-                    >
-                      <img src="/icons/canva.png" width={13} height={13} alt="" style={{ objectFit: 'contain' }} /> Canva
-                      <span className="filter-pill-badge">
-                        {tools.filter(t => t.slug.startsWith('canva') || t.integrationSlug?.includes('canva')).length}
-                      </span>
-                    </button>
-
-                    <div style={{ marginLeft: 'auto', fontSize: 11, color: theme === 'light' ? '#000000' : '#ffffff' }}>
-                      Showing <strong>{filteredTools.length}</strong> of <strong>{tools.length}</strong> tools
-                    </div>
-                  </div>
-                </div>
-
-                {/* TOOLS GRID */}
-                {filteredTools.length === 0 ? (
-                  <div className="panel" style={{ textAlign: 'center', padding: '48px 24px' }}>
-                    <div className="empty-icon" style={{ margin: '0 auto 16px' }}>
-                      <Search size={20} />
-                    </div>
-                    <h3 style={{ fontSize: 16, marginBottom: 6 }}>No tools match your filters</h3>
-                    <p className="sub" style={{ maxWidth: 400, margin: '0 auto 16px' }}>
-                      Try searching for another tool name, clearing the search query, or selecting "All Tools".
-                    </p>
-                    <button
-                      className="btn-secondary"
-                      onClick={() => {
-                        setToolSearchQuery('');
-                        setToolFilterIntegration('ALL');
-                        setToolFilterRisk('ALL');
-                      }}
-                    >
-                      Reset All Filters
-                    </button>
-                  </div>
-                ) : (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(370px, 1fr))', gap: 16 }}>
-                    {filteredTools.map(tool => {
-                      const properties = getToolProperties(tool);
-                      const isExpanded = expandedToolSchemaId === tool.id;
-                      const isIntegGmail = tool.slug.startsWith('gmail') || tool.integrationSlug === 'gmail';
-                      const isIntegGithub = tool.slug.startsWith('github') || tool.integrationSlug === 'github';
-                      const isIntegCalendar = tool.slug.startsWith('calendar') || tool.integrationSlug.includes('calendar');
-
-                      return (
-                        <div key={tool.id} className="tool-card">
-                          {/* Top: Integration Brand & Risk Badges */}
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                            <span className={`tool-integ-tag ${isIntegGmail ? 'gmail' : isIntegGithub ? 'github' : isIntegCalendar ? 'calendar' : ''}`}>
-                              {isIntegGmail && <Mail size={12} />}
-                              {isIntegGithub && <Github size={12} />}
-                              {isIntegCalendar && <Calendar size={12} />}
-                              {tool.integrationName || (isIntegGmail ? 'Gmail' : isIntegGithub ? 'GitHub' : isIntegCalendar ? 'Google Calendar' : 'Integration')}
-                            </span>
-
-                            <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                              <span className={`badge ${tool.riskLevel === 'HIGH' ? 'badge-revoked' : tool.riskLevel === 'MEDIUM' ? 'badge-test' : 'badge-live'}`}>
-                                {tool.riskLevel} Risk
-                              </span>
-                              {tool.requiresApproval && (
-                                <span
-                                  className="badge"
-                                  style={{
-                                    background: 'rgba(245, 158, 11, 0.15)',
-                                    color: theme === 'light' ? '#000000' : '#ffffff',
-                                    border: '1px solid rgba(245, 158, 11, 0.35)',
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    gap: 4
-                                  }}
-                                >
-                                  <Lock size={10} /> Approval Gate
-                                </span>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Slug Box with 1-Click Copy */}
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                            <div
-                              className="tool-slug-box"
-                              title="Click to copy tool slug"
-                              onClick={() => {
-                                navigator.clipboard.writeText(tool.slug);
-                                setCopiedToolSlug(tool.slug);
-                                setTimeout(() => setCopiedToolSlug(null), 1600);
-                              }}
-                            >
-                              <span>{tool.slug}</span>
-                              {copiedToolSlug === tool.slug ? (
-                                <Check size={11} style={{ color: '#4ade80' }} />
-                              ) : (
-                                <Copy size={11} style={{ opacity: 0.6 }} />
-                              )}
-                            </div>
-                            {copiedToolSlug === tool.slug && (
-                              <span style={{ fontSize: 10, color: '#4ade80', fontWeight: 600 }}>Copied!</span>
-                            )}
-                          </div>
-
-                          {/* Tool Name */}
-                          <h3 style={{ fontSize: 15, fontWeight: 700, margin: '2px 0 6px' }}>{tool.name}</h3>
-
-                          {/* Tool Description */}
-                          <p className="sub" style={{ fontSize: 12, lineHeight: 1.5, minHeight: 36, margin: 0 }}>
-                            {tool.description}
-                          </p>
-
-                          {/* Schema Parameters Summary */}
-                          <div style={{ marginTop: 14, paddingTop: 12, borderTop: '1px solid #202b3b' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                              <span style={{ fontSize: 11, fontWeight: 600, color: theme === 'light' ? '#000000' : '#ffffff', textTransform: 'uppercase', letterSpacing: 0.4 }}>
-                                Input Parameters ({properties.length})
-                              </span>
-                              {properties.length > 0 && (
-                                <button
-                                  className="btn-schema-toggle"
-                                  onClick={() => setExpandedToolSchemaId(isExpanded ? null : tool.id)}
-                                >
-                                  {isExpanded ? 'Hide Schema' : 'View Schema'}
-                                  {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                                </button>
-                              )}
-                            </div>
-
-                            {/* Quick Chips */}
-                            {properties.length === 0 ? (
-                              <div style={{ fontSize: 11, color: theme === 'light' ? '#000000' : '#ffffff', fontStyle: 'italic', marginTop: 6 }}>
-                                No input parameters required
-                              </div>
-                            ) : (
-                              <div className="param-chips-row">
-                                {properties.map(p => (
-                                  <span key={p.name} className={`param-chip ${p.required ? 'required' : ''}`}>
-                                    <strong>{p.name}</strong>
-                                    <span style={{ opacity: 0.7, fontSize: 10 }}>({p.type})</span>
-                                    {p.required && <span className="param-chip-req" title="Required parameter">*</span>}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-
-                            {/* Collapsible Schema Table */}
-                            {isExpanded && properties.length > 0 && (
-                              <div className="schema-table-wrap">
-                                <table className="schema-table">
-                                  <thead>
-                                    <tr>
-                                      <th>Field</th>
-                                      <th>Type</th>
-                                      <th>Status</th>
-                                      <th>Description</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {properties.map(p => (
-                                      <tr key={p.name}>
-                                        <td><code style={{ color: theme === 'light' ? '#007007' : '#4ade80', fontWeight: 600 }}>{p.name}</code></td>
-                                        <td><span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>{p.type}</span></td>
-                                        <td>
-                                          {p.required ? (
-                                            <span style={{ color: theme === 'light' ? '#000000' : '#ffffff', fontWeight: 600 }}>Required</span>
-                                          ) : (
-                                            <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>Optional</span>
-                                          )}
-                                        </td>
-                                        <td>
-                                          <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>
-                                            {p.description || 'Parameter accepted by connector action'}
-                                          </span>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                </table>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Card Footer: Scope & Action Runner */}
-                          <div style={{ marginTop: 'auto', paddingTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #202b3b' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11, color: theme === 'light' ? '#000000' : '#ffffff', maxWidth: 190, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={`Scope: ${tool.requiredScopes || 'None'}`}>
-                              <Lock size={11} style={{ flexShrink: 0 }} />
-                              <span>{tool.requiredScopes ? tool.requiredScopes.split('/').pop() || tool.requiredScopes : 'None required'}</span>
-                            </div>
-
-                            <button
-                              className="primary"
-                              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 14px', fontSize: 11, fontWeight: 600 }}
-                              onClick={() => openRunToolModal(tool)}
-                            >
-                              <Play size={12} /> Test Action
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </>
-            );
-          })()}
 
           {/* TAB 7: EXECUTIONS & LOGS (Milestone 3) */}
           {activeTab === 'executions' && (
@@ -5228,9 +4893,418 @@ console.log('Emails found:', searchRes.output);`}
         </section>
       </main>
 
+      {/* MODAL: Connector Actions & Tools Explorer */}
+      {selectedAppForTools && (() => {
+        const appTools = getAppTools(selectedAppForTools, tools);
+        const meta = getConnectorDetails(selectedAppForTools.slug, selectedAppForTools.name);
+        const isConnected = isMasterSSOConnected && connectedAccounts.some(
+          acc => (acc.integrationSlug === selectedAppForTools.slug ||
+                  (selectedAppForTools.slug.includes('calendar') && acc.integrationSlug.includes('calendar')) ||
+                  (selectedAppForTools.slug.includes('drive') && acc.integrationSlug.includes('drive'))) &&
+                  acc.status === 'CONNECTED'
+        );
+        const isEnabled = isMasterSSOConnected && (enabledSlugs.has(selectedAppForTools.slug) || isConnected);
+
+        return (
+          <div
+            className="modal-overlay"
+            style={{ zIndex: 1000 }}
+            onClick={() => setSelectedAppForTools(null)}
+          >
+            <div
+              className="modal-card"
+              style={{
+                maxWidth: 780,
+                width: '94%',
+                maxHeight: '88vh',
+                display: 'flex',
+                flexDirection: 'column',
+                padding: 0,
+                overflow: 'hidden',
+                background: theme === 'light' ? '#ffffff' : '#0f172a',
+                border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #334155',
+                borderRadius: 14,
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.45)'
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div
+                style={{
+                  padding: '20px 24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  borderBottom: theme === 'light' ? '1px solid #f1f5f9' : '1px solid #1e293b',
+                  background: theme === 'light' ? '#f8fafc' : '#131e30'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: theme === 'light' ? '#ffffff' : '#1e293b',
+                      border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #334155',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.06)',
+                      flexShrink: 0
+                    }}
+                  >
+                    {renderRealIntegrationIcon(selectedAppForTools.slug, 32)}
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <h2 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: theme === 'light' ? '#0f172a' : '#ffffff' }}>
+                        {selectedAppForTools.name}
+                      </h2>
+                      <VerifiedBadge isEnabled={isEnabled} />
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          padding: '2px 8px',
+                          borderRadius: 9999,
+                          background: isEnabled ? 'rgba(0, 112, 7, 0.12)' : (theme === 'light' ? '#f1f5f9' : '#1e293b'),
+                          color: isEnabled ? (theme === 'light' ? '#007007' : '#4ade80') : '#94a3b8',
+                          border: isEnabled ? '1px solid rgba(0, 112, 7, 0.3)' : '1px solid transparent'
+                        }}
+                      >
+                        {isEnabled ? '● Active' : '○ Standby'}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, fontSize: 12, color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                      <span>{meta.author}</span>
+                      <span>•</span>
+                      <span>{meta.category}</span>
+                      <span>•</span>
+                      <strong style={{ color: theme === 'light' ? '#007007' : '#4ade80' }}>
+                        {appTools.length} Supported Tools
+                      </strong>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => { setSelectedAppForTools(null); setModalToolSearch(''); }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    padding: 8,
+                    cursor: 'pointer',
+                    color: theme === 'light' ? '#64748b' : '#94a3b8',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 8
+                  }}
+                  title="Close modal"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Subheader info & search bar */}
+              <div
+                style={{
+                  padding: '12px 24px',
+                  background: theme === 'light' ? '#f1f5f9' : '#121d2c',
+                  borderBottom: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #1e2d42',
+                  fontSize: 12,
+                  color: theme === 'light' ? '#334155' : '#cbd5e1',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 16,
+                  flexWrap: 'wrap'
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <span>{meta.subheading}</span>
+                </div>
+                <div style={{ position: 'relative', width: 220, maxWidth: '100%' }}>
+                  <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: theme === 'light' ? '#94a3b8' : '#64748b', pointerEvents: 'none' }} />
+                  <input
+                    type="text"
+                    placeholder="Search tools..."
+                    value={modalToolSearch}
+                    onChange={e => setModalToolSearch(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '6px 26px 6px 28px',
+                      fontSize: 11,
+                      borderRadius: 6,
+                      border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #273447',
+                      background: theme === 'light' ? '#ffffff' : '#0d1522',
+                      color: theme === 'light' ? '#0f172a' : '#ffffff',
+                      outline: 'none',
+                      boxSizing: 'border-box'
+                    }}
+                  />
+                  {modalToolSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setModalToolSearch('')}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        cursor: 'pointer',
+                        color: '#94a3b8',
+                        fontSize: 12
+                      }}
+                      title="Clear search"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Scrollable Actions List */}
+              <div
+                style={{
+                  padding: '20px 24px',
+                  overflowY: 'auto',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 16,
+                  maxHeight: 'calc(88vh - 170px)'
+                }}
+              >
+                {(() => {
+                  const filteredAppTools = appTools.filter(t => {
+                    if (!modalToolSearch.trim()) return true;
+                    const q = modalToolSearch.toLowerCase().trim();
+                    return t.name.toLowerCase().includes(q) || t.slug.toLowerCase().includes(q) || (t.description && t.description.toLowerCase().includes(q));
+                  });
+
+                  if (filteredAppTools.length === 0) {
+                    return (
+                      <div style={{ textAlign: 'center', padding: '36px 16px', color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                        <p style={{ margin: 0, fontSize: 13 }}>No tools match "{modalToolSearch}"</p>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => setModalToolSearch('')}
+                          style={{ marginTop: 10, fontSize: 11, padding: '5px 12px' }}
+                        >
+                          Clear Search
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  return filteredAppTools.map((tool, index) => {
+                    let schemaParams: { name: string; type: string; required: boolean; description: string }[] = [];
+                    try {
+                      const schema = typeof tool.inputSchema === 'string' ? JSON.parse(tool.inputSchema) : tool.inputSchema;
+                      const props = schema?.properties || {};
+                      const reqList: string[] = schema?.required || [];
+                      schemaParams = Object.keys(props).map(key => ({
+                        name: key,
+                        type: props[key]?.type || 'string',
+                        required: reqList.includes(key),
+                        description: props[key]?.description || ''
+                      }));
+                    } catch {
+                      // fallback
+                    }
+
+                    const isHighRisk = tool.riskLevel === 'HIGH' || tool.requiresApproval;
+                    const isMediumRisk = tool.riskLevel === 'MEDIUM';
+
+                    return (
+                      <div
+                        key={tool.id || tool.slug || index}
+                        style={{
+                          padding: 18,
+                          borderRadius: 10,
+                          border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #273447',
+                          background: theme === 'light' ? '#ffffff' : '#142032',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 12,
+                          transition: 'border-color 0.15s ease'
+                        }}
+                      >
+                        {/* Action Header */}
+                        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+                          <div style={{ flex: 1, minWidth: 260 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                              <h4 style={{ fontSize: 14, fontWeight: 700, margin: 0, color: theme === 'light' ? '#0f172a' : '#ffffff' }}>
+                                {tool.name}
+                              </h4>
+                              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                                <code
+                                  style={{
+                                    fontSize: 11,
+                                    padding: '2px 6px',
+                                    borderRadius: 4,
+                                    background: theme === 'light' ? '#f1f5f9' : '#0d1522',
+                                    color: theme === 'light' ? '#007007' : '#38bdf8',
+                                    border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #1e293b'
+                                  }}
+                                >
+                                  {tool.slug}
+                                </code>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(tool.slug);
+                                    setCopiedToolSlug(tool.slug);
+                                    setTimeout(() => setCopiedToolSlug(null), 1600);
+                                  }}
+                                  style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    padding: 2,
+                                    cursor: 'pointer',
+                                    color: copiedToolSlug === tool.slug ? '#10b981' : (theme === 'light' ? '#94a3b8' : '#64748b'),
+                                    display: 'inline-flex',
+                                    alignItems: 'center'
+                                  }}
+                                  title="Copy action slug"
+                                >
+                                  {copiedToolSlug === tool.slug ? <Check size={12} /> : <Copy size={12} />}
+                                </button>
+                              </div>
+                            </div>
+                            <p style={{ margin: '6px 0 0', fontSize: 12, color: theme === 'light' ? '#475569' : '#94a3b8', lineHeight: 1.4 }}>
+                              {tool.description}
+                            </p>
+                          </div>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                            <span
+                              style={{
+                                fontSize: 10,
+                                fontWeight: 700,
+                                padding: '3px 8px',
+                                borderRadius: 4,
+                                letterSpacing: '0.4px',
+                                textTransform: 'uppercase',
+                                background: isHighRisk
+                                  ? 'rgba(239, 68, 68, 0.12)'
+                                  : isMediumRisk
+                                  ? 'rgba(245, 158, 11, 0.12)'
+                                  : 'rgba(16, 185, 129, 0.12)',
+                                color: isHighRisk ? '#ef4444' : isMediumRisk ? '#f59e0b' : '#10b981',
+                                border: `1px solid ${isHighRisk ? 'rgba(239, 68, 68, 0.3)' : isMediumRisk ? 'rgba(245, 158, 11, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`
+                              }}
+                            >
+                              {isHighRisk ? 'High Risk (Approval)' : isMediumRisk ? 'Medium Risk' : 'Low Risk (Safe)'}
+                            </span>
+
+                            <button
+                              type="button"
+                              className="primary"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 6,
+                                fontSize: 11,
+                                fontWeight: 600,
+                                padding: '6px 14px',
+                                borderRadius: 6
+                              }}
+                              onClick={() => openRunToolModal(tool)}
+                            >
+                              <Play size={11} /> Test Action
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Parameters section */}
+                        {schemaParams.length > 0 && (
+                          <div
+                            style={{
+                              background: theme === 'light' ? '#f8fafc' : '#0b1320',
+                              padding: '10px 14px',
+                              borderRadius: 6,
+                              border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #1e293b'
+                            }}
+                          >
+                            <div style={{ fontSize: 11, fontWeight: 600, marginBottom: 8, color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                              PARAMETERS ({schemaParams.length})
+                            </div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                              {schemaParams.map(param => (
+                                <div
+                                  key={param.name}
+                                  style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 6,
+                                    fontSize: 11,
+                                    padding: '3px 8px',
+                                    borderRadius: 4,
+                                    background: theme === 'light' ? '#ffffff' : '#142032',
+                                    border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #273447'
+                                  }}
+                                  title={param.description || `${param.name} (${param.type})`}
+                                >
+                                  <code style={{ color: theme === 'light' ? '#0f172a' : '#f1f5f9', fontWeight: 600 }}>
+                                    {param.name}
+                                  </code>
+                                  <span style={{ fontSize: 10, color: '#64748b' }}>
+                                    :{param.type}
+                                  </span>
+                                  {param.required && (
+                                    <span style={{ fontSize: 10, color: '#ef4444', fontWeight: 700 }} title="Required">*</span>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+
+              {/* Modal Footer */}
+              <div
+                style={{
+                  padding: '14px 24px',
+                  borderTop: theme === 'light' ? '1px solid #f1f5f9' : '1px solid #1e293b',
+                  background: theme === 'light' ? '#f8fafc' : '#131e30',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontSize: 12
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: theme === 'light' ? '#64748b' : '#94a3b8' }}>
+                  <Terminal size={14} />
+                  <span>Execute live via SDK or Model Context Protocol (MCP)</span>
+                </div>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => setSelectedAppForTools(null)}
+                  style={{ fontSize: 12, padding: '7px 16px' }}
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* MODAL: Run Tool (Milestone 3 Interactive Runner) */}
       {runTool && (
-        <div className="modal-overlay">
+        <div className="modal-overlay" style={{ zIndex: 1100 }}>
           <div className="modal-card" style={{ maxWidth: 680, maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}>
             {/* Modal Header */}
             <div className="modal-header" style={{ padding: '18px 24px' }}>
@@ -6124,11 +6198,12 @@ console.log('Emails found:', searchRes.output);`}
                     type="button"
                     className="primary"
                     onClick={() => {
+                      const target = composioModalInteg;
                       setComposioModalInteg(null);
-                      setActiveTab('tools');
+                      if (target) setSelectedAppForTools(target);
                     }}
                   >
-                    Open Tool Explorer →
+                    View Actions & Tools →
                   </button>
                 </div>
               </div>
