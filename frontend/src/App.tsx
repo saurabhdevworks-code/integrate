@@ -639,7 +639,7 @@ export default function App() {
 
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
   const [userEmail, setUserEmail] = useState<string | null>(localStorage.getItem('userEmail'));
-  const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'tools' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs' | 'landing'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'apikeys' | 'integrations' | 'connections' | 'tools' | 'executions' | 'approvals' | 'webhooks' | 'usage' | 'docs'>('overview');
   const [showLandingPage, setShowLandingPage] = useState(true);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
@@ -1573,6 +1573,8 @@ export default function App() {
     setTools([]);
     setExecutions([]);
     setApprovals([]);
+    setShowLandingPage(true);
+    setActiveTab('overview');
   }
 
   async function handleCreateProject(e: React.FormEvent) {
@@ -2524,13 +2526,6 @@ print("Result:", response.json())`;
         <div className="nav-label" style={{ marginTop: 12 }}>WORKSPACE</div>
         <nav>
           <a
-            className={activeTab === 'landing' ? 'active' : ''}
-            href="#"
-            onClick={e => { e.preventDefault(); setActiveTab('landing'); }}
-          >
-            <Globe size={17} /> Home Page
-          </a>
-          <a
             className={activeTab === 'overview' ? 'active' : ''}
             href="#"
             onClick={e => { e.preventDefault(); setActiveTab('overview'); }}
@@ -2862,18 +2857,6 @@ print("Result:", response.json())`;
         </header>
 
         <section className="content">
-          {/* TAB 0: CRAZY LANDING / HOME PAGE */}
-          {activeTab === 'landing' && (
-            <div style={{ margin: '-24px -28px', minHeight: '100%' }}>
-              <LandingPage
-                theme={theme}
-                toggleTheme={toggleTheme}
-                onOpenAuth={() => setActiveTab('overview')}
-                integrations={integrations}
-              />
-            </div>
-          )}
-
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
             <>
@@ -3215,7 +3198,6 @@ print("Result:", response.json())`;
               )}
 
               <div className="notice" style={{ marginBottom: 20 }}>
-                <ShieldAlert size={18} />
                 <div>
                   <strong>Key Security Policy</strong>
                   <p>
@@ -3462,9 +3444,6 @@ print("Result:", response.json())`;
               <>
                 <div className="heading-row">
                   <div>
-                    <div className="eyebrow" style={{ color: '#007007', fontWeight: 700, letterSpacing: '1.2px', fontSize: 11, marginBottom: 4 }}>
-                      CONNECTORS ({displayIntegrations.length})
-                    </div>
                     <h1>Integrations & Connectors</h1>
                     <p className="sub">
                       Connect third-party apps to empower your AI agents and workflows with live external actions.
@@ -4190,9 +4169,6 @@ print("Result:", response.json())`;
               <>
                 <div className="heading-row">
                   <div>
-                    <div className="eyebrow" style={{ color: '#007007', fontWeight: 700, letterSpacing: '1.2px', fontSize: 11, marginBottom: 4 }}>
-                      INTEGRATION TOOL CATALOG & RUNNER
-                    </div>
                     <h1>Tool Explorer & Action Runner</h1>
                     <p className="sub">
                       Discover available integration tools, inspect JSON Schema parameter definitions, and test action executions interactively.
