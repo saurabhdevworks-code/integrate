@@ -3651,16 +3651,40 @@ print("Result:", response.json())`;
                               <VerifiedBadge isEnabled={isEnabled} />
                             </div>
                             <p className="integration-card-subheading">{meta.subheading}</p>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 4, flexWrap: 'wrap' }}>
-                              <span className="integration-card-author">{meta.author}</span>
-                              <span style={{ color: theme === 'light' ? '#cbd5e1' : '#334155', fontSize: 12, lineHeight: 1 }}>|</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
+                              <span
+                                className="integration-card-author"
+                                style={{
+                                  margin: 0,
+                                  padding: 0,
+                                  fontSize: 12,
+                                  lineHeight: 1,
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  color: theme === 'light' ? '#64748b' : '#94a3b8'
+                                }}
+                              >
+                                {meta.author}
+                              </span>
+                              <span
+                                style={{
+                                  color: theme === 'light' ? '#cbd5e1' : '#334155',
+                                  fontSize: 12,
+                                  lineHeight: 1,
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  userSelect: 'none'
+                                }}
+                              >
+                                |
+                              </span>
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedAppForTools(integ);
                                 }}
-                                title={`Explore ${appTools.length} tools supported by ${integ.name}`}
+                                title={`Click to view ${appTools.length} tools supported by ${integ.name}`}
                                 style={{
                                   background: 'none',
                                   border: 'none',
@@ -3670,17 +3694,21 @@ print("Result:", response.json())`;
                                   alignItems: 'center',
                                   gap: 4,
                                   fontSize: 12,
-                                  fontWeight: 500,
-                                  color: theme === 'light' ? '#64748b' : '#94a3b8',
+                                  lineHeight: 1,
+                                  fontWeight: 600,
+                                  color: theme === 'light' ? '#2563eb' : '#38bdf8',
                                   cursor: 'pointer',
-                                  transition: 'color 0.15s ease',
-                                  outline: 'none'
+                                  transition: 'all 0.15s ease',
+                                  outline: 'none',
+                                  textDecoration: 'none'
                                 }}
                                 onMouseEnter={(e) => {
-                                  e.currentTarget.style.color = theme === 'light' ? '#007007' : '#4ade80';
+                                  e.currentTarget.style.color = theme === 'light' ? '#1d4ed8' : '#7dd3fc';
+                                  e.currentTarget.style.textDecoration = 'underline';
                                 }}
                                 onMouseLeave={(e) => {
-                                  e.currentTarget.style.color = theme === 'light' ? '#64748b' : '#94a3b8';
+                                  e.currentTarget.style.color = theme === 'light' ? '#2563eb' : '#38bdf8';
+                                  e.currentTarget.style.textDecoration = 'none';
                                 }}
                               >
                                 <Wrench size={11} style={{ flexShrink: 0 }} />
