@@ -3522,27 +3522,35 @@ print("Result:", response.json())`;
 
             return (
               <>
-                <div className="heading-row">
-                  <div>
+                <div className="heading-row" style={{ alignItems: 'flex-start', gap: 20 }}>
+                  <div style={{ flex: 1, minWidth: 260 }}>
                     <h1>Integrations & Connectors</h1>
                     <p className="sub">
                       Connect third-party apps to empower your AI agents and workflows with live external actions.
                     </p>
                   </div>
-                </div>
 
-                {/* Filter and Search Bar */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-                  <div style={{ position: 'relative', width: 340, maxWidth: '100%' }}>
-                    <Search size={15} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: theme === 'light' ? '#000000' : '#ffffff', pointerEvents: 'none' }} />
+                  {/* Search box set in top right header area (red mark area) */}
+                  <div style={{ position: 'relative', width: 340, maxWidth: '100%', flexShrink: 0 }}>
+                    <Search
+                      size={15}
+                      style={{
+                        position: 'absolute',
+                        left: 12,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: theme === 'light' ? '#64748b' : '#94a3b8',
+                        pointerEvents: 'none'
+                      }}
+                    />
                     <input
                       type="text"
-                      placeholder="Search 30+ connectors (e.g. Slack, Notion, Stripe)..."
+                      placeholder="Search 50+ connectors (e.g. Slack, Notion, Stripe)..."
                       value={integrationSearch}
                       onChange={e => setIntegrationSearch(e.target.value)}
                       style={{
                         width: '100%',
-                        padding: '9px 12px 9px 36px',
+                        padding: '10px 32px 10px 36px',
                         fontSize: 12,
                         borderRadius: 8,
                         border: theme === 'light' ? '1px solid #cbd5e1' : '1px solid #273447',
@@ -3552,9 +3560,33 @@ print("Result:", response.json())`;
                         boxSizing: 'border-box'
                       }}
                     />
+                    {integrationSearch && (
+                      <button
+                        type="button"
+                        onClick={() => setIntegrationSearch('')}
+                        style={{
+                          position: 'absolute',
+                          right: 10,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          background: 'none',
+                          border: 'none',
+                          padding: 2,
+                          cursor: 'pointer',
+                          color: '#94a3b8',
+                          display: 'flex',
+                          alignItems: 'center'
+                        }}
+                        title="Clear search"
+                      >
+                        <X size={14} />
+                      </button>
+                    )}
                   </div>
+                </div>
 
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+                {/* Category Filter Pills (Full-width row directly below header) */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, alignItems: 'center', marginBottom: 24 }}>
                     {categoryList.map(cat => {
                       const active = integrationCategory === cat.id;
                       return (
@@ -3579,7 +3611,6 @@ print("Result:", response.json())`;
                       );
                     })}
                   </div>
-                </div>
 
                 {filteredIntegrations.length === 0 ? (
                   <div className="empty" style={{ padding: '48px 20px', background: theme === 'light' ? '#ffffff' : '#121d2c', borderRadius: 12, border: theme === 'light' ? '1px solid #e2e8f0' : '1px solid #273447' }}>
