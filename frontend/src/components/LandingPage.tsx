@@ -396,7 +396,7 @@ print("Result:", response.data)`,
               transition: 'all 0.15s ease'
             }}
           >
-            <span>Launch Console</span>
+            <span>Get Started</span>
             <ArrowRight size={15} />
           </button>
         </div>
@@ -517,7 +517,7 @@ print("Result:", response.data)`,
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            <span>Launch Developer Console</span>
+            <span>Get Started Free</span>
             <ArrowRight size={17} />
           </button>
 
@@ -772,7 +772,7 @@ print("Result:", response.data)`,
             <p style={{ fontSize: 13, color: isDark ? '#94a3b8' : '#64748b', lineHeight: 1.6, margin: 0 }}>
               {inspectLayer === 'gateway' && 'Validates incoming JSON payloads against strict OpenAPI specs before execution. Blocks schema injections and enforces sliding-window quotas without touching database locks.'}
               {inspectLayer === 'vault' && 'Master keys stored in HSM/KMS decrypt user access tokens strictly in volatile memory. Tokens are automatically rotated via OAuth 2.0 refresh loops and never logged to disk.'}
-              {inspectLayer === 'gates' && 'Actions tagged with medium or high blast radiuses pause execution and notify designated team reviewers via webhooks, Slack alerts, or console UI before write operations dispatch.'}
+              {inspectLayer === 'gates' && 'Actions tagged with medium or high blast radiuses pause execution and notify designated team reviewers via webhooks, Slack alerts, or dashboard UI before write operations dispatch.'}
               {inspectLayer === 'dispatcher' && 'Dispatches payloads across Google, Slack, GitHub, Canva, and Microsoft APIs with exponential backoff retries, SHA-256 webhook signatures, and detailed audit trails.'}
             </p>
           </div>
@@ -1065,7 +1065,7 @@ print("Result:", response.data)`,
             50+ Production Connectors Ready to Empower Your Stack
           </h2>
           <p style={{ fontSize: 15, color: isDark ? '#94a3b8' : '#64748b', maxWidth: 640, margin: '0 auto 24px' }}>
-            Connect with 1-click Master SSO. Zero developer consoles, custom OAuth redirect URIs, or manual token refresh cron jobs.
+            Connect with 1-click Master SSO. Zero manual OAuth setup, redirect URIs, or token refresh cron jobs.
           </p>
 
           {/* Search Bar & Category Filters */}
@@ -1220,7 +1220,7 @@ print("Result:", response.data)`,
               gap: 8
             }}
           >
-            <span>Explore All 50+ Connectors in Console</span>
+            <span>Explore All 50+ Connectors</span>
             <ArrowRight size={14} />
           </button>
         </div>
@@ -1588,7 +1588,7 @@ print("Result:", response.data)`,
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
           >
-            <span>Open Developer Console</span>
+            <span>Get Started Free</span>
             <ArrowRight size={18} />
           </button>
         </div>

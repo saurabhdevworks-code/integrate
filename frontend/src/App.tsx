@@ -2862,11 +2862,6 @@ print("Result:", response.json())`;
         </header>
 
         <section className="content">
-          {/* Top developer console header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <div className="eyebrow">DEVELOPER CONSOLE</div>
-          </div>
-
           {/* TAB 0: CRAZY LANDING / HOME PAGE */}
           {activeTab === 'landing' && (
             <div style={{ margin: '-24px -28px', minHeight: '100%' }}>
@@ -3468,9 +3463,9 @@ print("Result:", response.json())`;
                 <div className="heading-row">
                   <div>
                     <div className="eyebrow" style={{ color: '#007007', fontWeight: 700, letterSpacing: '1.2px', fontSize: 11, marginBottom: 4 }}>
-                      APP INTEGRATIONS & CONNECTORS ({displayIntegrations.length})
+                      CONNECTORS ({displayIntegrations.length})
                     </div>
-                    <h1>Integration Marketplace</h1>
+                    <h1>Integrations & Connectors</h1>
                     <p className="sub">
                       Connect third-party apps to empower your AI agents and workflows with live external actions.
                     </p>
@@ -3717,7 +3712,7 @@ print("Result:", response.json())`;
                       onClick={() => setActiveTab('integrations')}
                     >
                       <Cable size={15} />
-                      <span>Marketplace →</span>
+                      <span>Connectors →</span>
                     </button>
                   </div>
                 </div>
@@ -3751,7 +3746,7 @@ print("Result:", response.json())`;
                     <Sparkles size={18} style={{ color: '#fbbf24', flexShrink: 0 }} />
                     <div>
                       <strong style={{ display: 'block', fontSize: 13, color: theme === 'light' ? '#000000' : '#ffffff' }}>1-Click Toggle</strong>
-                      <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>Flip ON in Marketplace to activate</span>
+                      <span style={{ color: theme === 'light' ? '#000000' : '#ffffff' }}>Flip ON to activate</span>
                     </div>
                   </div>
                 </div>
@@ -3844,7 +3839,7 @@ print("Result:", response.json())`;
                           }}
                         >
                           <Plus size={14} />
-                          <span>Browse Marketplace</span>
+                          <span>Browse Connectors</span>
                         </button>
                       </div>
                     </div>
@@ -5929,7 +5924,7 @@ console.log('Emails found:', searchRes.output);`}
                       style={{ opacity: 0.85, background: theme === 'light' ? '#f1f5f9' : '#070c14' }}
                     />
                     <span style={{ fontSize: 10, color: theme === 'light' ? '#000000' : '#ffffff' }}>
-                      Add this callback URL to your {composioModalInteg.name} Developer Console application settings.
+                      Add this callback URL to your {composioModalInteg.name} developer application settings.
                     </span>
                   </div>
                 </div>
