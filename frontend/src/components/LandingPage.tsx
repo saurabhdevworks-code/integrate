@@ -39,10 +39,7 @@ import {
   Send,
   Calendar,
   MessageSquare,
-  FileSpreadsheet,
-  Network,
-  Fingerprint,
-  Binary
+  FileSpreadsheet
 } from 'lucide-react';
 import { Integration } from '../api/client';
 
@@ -276,80 +273,6 @@ print("Result:", response.data)`,
             : 'radial-gradient(ellipse at 50% 0%, rgba(0, 112, 7, 0.1) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
-
-        {/* Margin Relatable Circuit Watermark - Left Bus */}
-        <div style={{
-          position: 'absolute',
-          top: 100,
-          left: 18,
-          bottom: 100,
-          opacity: isDark ? 0.35 : 0.28,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 90
-        }}>
-          <div style={{
-            writingMode: 'vertical-rl',
-            transform: 'rotate(180deg)',
-            fontSize: 9,
-            fontFamily: 'monospace',
-            letterSpacing: '2.5px',
-            color: isDark ? '#4ade80' : '#007007',
-            fontWeight: 700
-          }}>
-            BUS // MCP_SSE_STDIO // NODE_GATEWAY_v2.4
-          </div>
-          <div style={{ width: 1, flex: 1, background: isDark ? 'linear-gradient(to bottom, transparent, #4ade80, transparent)' : 'linear-gradient(to bottom, transparent, #007007, transparent)' }} />
-          <div style={{ width: 7, height: 7, borderRadius: '50%', border: isDark ? '2px solid #4ade80' : '2px solid #007007' }} />
-          <div style={{ width: 1, height: 60, background: isDark ? 'rgba(74,222,128,0.3)' : 'rgba(0,112,7,0.3)' }} />
-          <div style={{
-            writingMode: 'vertical-rl',
-            transform: 'rotate(180deg)',
-            fontSize: 9,
-            fontFamily: 'monospace',
-            letterSpacing: '2px',
-            color: isDark ? '#94a3b8' : '#64748b'
-          }}>
-            RFC-6749 // OAUTH2_TOKEN_VAULT
-          </div>
-        </div>
-
-        {/* Margin Relatable Circuit Watermark - Right Bus */}
-        <div style={{
-          position: 'absolute',
-          top: 100,
-          right: 18,
-          bottom: 100,
-          opacity: isDark ? 0.35 : 0.28,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 90
-        }}>
-          <div style={{ width: 7, height: 7, borderRadius: '50%', border: isDark ? '2px solid #38bdf8' : '2px solid #0284c7' }} />
-          <div style={{ width: 1, flex: 1, background: isDark ? 'linear-gradient(to bottom, transparent, #38bdf8, transparent)' : 'linear-gradient(to bottom, transparent, #0284c7, transparent)' }} />
-          <div style={{
-            writingMode: 'vertical-rl',
-            fontSize: 9,
-            fontFamily: 'monospace',
-            letterSpacing: '2.5px',
-            color: isDark ? '#38bdf8' : '#0284c7',
-            fontWeight: 700
-          }}>
-            AES-256-GCM // HARDENED_ENCLAVE // PORT_5173
-          </div>
-          <div style={{ width: 1, height: 60, background: isDark ? 'rgba(56,189,248,0.3)' : 'rgba(2,132,199,0.3)' }} />
-          <div style={{
-            writingMode: 'vertical-rl',
-            fontSize: 9,
-            fontFamily: 'monospace',
-            letterSpacing: '2px',
-            color: isDark ? '#94a3b8' : '#64748b'
-          }}>
-            P99_LATENCY &lt; 14MS // SHA256_HMAC
-          </div>
-        </div>
       </div>
       {/* 1. Header Navigation Bar */}
       <header style={{
@@ -523,72 +446,6 @@ print("Result:", response.data)`,
           fontFamily: 'monospace'
         }}>
           INTEGRATE
-        </div>
-
-        {/* Hero Left Watermark Blueprint Badge (Hidden on mobile) */}
-        <div className="hero-watermark-left" style={{
-          position: 'absolute',
-          top: 130,
-          left: -12,
-          padding: '12px 16px',
-          borderRadius: 12,
-          border: isDark ? '1px dashed rgba(74, 222, 128, 0.28)' : '1px dashed rgba(0, 112, 7, 0.22)',
-          background: isDark ? 'rgba(15, 23, 42, 0.7)' : 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(8px)',
-          fontSize: 10,
-          fontFamily: 'monospace',
-          textAlign: 'left',
-          color: isDark ? '#86efac' : '#007007',
-          lineHeight: 1.6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0,
-          boxShadow: isDark ? '0 8px 24px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.05)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, marginBottom: 4, letterSpacing: '0.8px' }}>
-            <ShieldCheck size={13} />
-            <span>SECURITY_ENCLAVE</span>
-          </div>
-          <div style={{ opacity: 0.85 }}>CIPHER    : AES-256-GCM</div>
-          <div style={{ opacity: 0.85 }}>AUTH_TYPE : RFC-6749 OAUTH2</div>
-          <div style={{ opacity: 0.85 }}>RETENTION : 0-BYTE ZERO STORAGE</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 9, color: isDark ? '#4ade80' : '#007007', fontWeight: 700 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} className="watermark-pulse" />
-            <span>HARDWARE ENVELOPE ARMED</span>
-          </div>
-        </div>
-
-        {/* Hero Right Watermark Blueprint Badge (Hidden on mobile) */}
-        <div className="hero-watermark-right" style={{
-          position: 'absolute',
-          top: 130,
-          right: -12,
-          padding: '12px 16px',
-          borderRadius: 12,
-          border: isDark ? '1px dashed rgba(56, 189, 248, 0.28)' : '1px dashed rgba(2, 132, 199, 0.22)',
-          background: isDark ? 'rgba(15, 23, 42, 0.7)' : 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(8px)',
-          fontSize: 10,
-          fontFamily: 'monospace',
-          textAlign: 'left',
-          color: isDark ? '#38bdf8' : '#0284c7',
-          lineHeight: 1.6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0,
-          boxShadow: isDark ? '0 8px 24px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.05)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 700, marginBottom: 4, letterSpacing: '0.8px' }}>
-            <Network size={13} />
-            <span>UNIVERSAL_DISPATCH</span>
-          </div>
-          <div style={{ opacity: 0.85 }}>CONNECTED_TOOLS : 30+ PLUGINS</div>
-          <div style={{ opacity: 0.85 }}>SPECIFICATION   : MCP v1.0 SSE</div>
-          <div style={{ opacity: 0.85 }}>LATENCY_P99     : &lt; 14MS</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4, fontSize: 9, color: isDark ? '#38bdf8' : '#0284c7', fontWeight: 700 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8', display: 'inline-block' }} className="watermark-pulse" />
-            <span>APPROVAL GATES ACTIVE</span>
-          </div>
         </div>
 
         {/* Top Protocol Pill */}
@@ -796,45 +653,6 @@ print("Result:", response.data)`,
         margin: '0 auto',
         boxSizing: 'border-box'
       }}>
-        {/* Pipeline Relatable Architecture Watermarks */}
-        <div style={{
-          position: 'absolute',
-          top: 18,
-          right: 24,
-          fontSize: 10,
-          fontFamily: 'monospace',
-          letterSpacing: '1px',
-          color: isDark ? 'rgba(74, 222, 128, 0.45)' : 'rgba(0, 112, 7, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0
-        }}>
-          <Fingerprint size={12} />
-          <span>SPEC // RFC-8259 JSON_SCHEMA DRAFT-07 // MCP-SSE</span>
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          top: 35,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: 'clamp(55px, 10vw, 130px)',
-          fontWeight: 900,
-          letterSpacing: '-5px',
-          textTransform: 'uppercase',
-          color: 'transparent',
-          WebkitTextStroke: isDark ? '1px rgba(74, 222, 128, 0.05)' : '1px rgba(0, 112, 7, 0.04)',
-          whiteSpace: 'nowrap',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          fontFamily: 'monospace'
-        }}>
-          PIPELINE CORE
-        </div>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{
             display: 'inline-flex',
@@ -1034,45 +852,6 @@ print("Result:", response.data)`,
         margin: '0 auto',
         boxSizing: 'border-box'
       }}>
-        {/* Simulator Relatable Watermarks */}
-        <div style={{
-          position: 'absolute',
-          top: 18,
-          right: 24,
-          fontSize: 10,
-          fontFamily: 'monospace',
-          letterSpacing: '1px',
-          color: isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(2, 132, 199, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0
-        }}>
-          <Terminal size={12} />
-          <span>SANDBOX_ID // b6f4-90a1 // 15-STEP ENGINE</span>
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          top: 35,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: 'clamp(55px, 10vw, 130px)',
-          fontWeight: 900,
-          letterSpacing: '-5px',
-          textTransform: 'uppercase',
-          color: 'transparent',
-          WebkitTextStroke: isDark ? '1px rgba(56, 189, 248, 0.05)' : '1px rgba(2, 132, 199, 0.04)',
-          whiteSpace: 'nowrap',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          fontFamily: 'monospace'
-        }}>
-          LIVE RUNTIME
-        </div>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <div style={{
             display: 'inline-flex',
@@ -1291,45 +1070,6 @@ print("Result:", response.data)`,
         margin: '0 auto',
         boxSizing: 'border-box'
       }}>
-        {/* Connectors Catalog Relatable Watermarks */}
-        <div style={{
-          position: 'absolute',
-          top: 18,
-          right: 24,
-          fontSize: 10,
-          fontFamily: 'monospace',
-          letterSpacing: '1px',
-          color: isDark ? 'rgba(74, 222, 128, 0.45)' : 'rgba(0, 112, 7, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0
-        }}>
-          <Boxes size={12} />
-          <span>REGISTRY // 30+ PLUGINS // 1-CLICK MASTER SSO</span>
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          top: 35,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: 'clamp(50px, 9vw, 120px)',
-          fontWeight: 900,
-          letterSpacing: '-5px',
-          textTransform: 'uppercase',
-          color: 'transparent',
-          WebkitTextStroke: isDark ? '1px rgba(74, 222, 128, 0.05)' : '1px rgba(0, 112, 7, 0.04)',
-          whiteSpace: 'nowrap',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          fontFamily: 'monospace'
-        }}>
-          CONNECTOR MESH
-        </div>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <div style={{
             display: 'inline-flex',
@@ -1511,45 +1251,6 @@ print("Result:", response.data)`,
         margin: '0 auto',
         boxSizing: 'border-box'
       }}>
-        {/* Security Core Relatable Watermarks */}
-        <div style={{
-          position: 'absolute',
-          top: 18,
-          right: 24,
-          fontSize: 10,
-          fontFamily: 'monospace',
-          letterSpacing: '1px',
-          color: isDark ? 'rgba(74, 222, 128, 0.45)' : 'rgba(0, 112, 7, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0
-        }}>
-          <Binary size={12} />
-          <span>0x49 0x4E 0x54 0x45 0x47 0x52 0x41 0x54 0x45 // AES-256</span>
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          top: 35,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: 'clamp(50px, 9vw, 120px)',
-          fontWeight: 900,
-          letterSpacing: '-5px',
-          textTransform: 'uppercase',
-          color: 'transparent',
-          WebkitTextStroke: isDark ? '1px rgba(74, 222, 128, 0.05)' : '1px rgba(0, 112, 7, 0.04)',
-          whiteSpace: 'nowrap',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          fontFamily: 'monospace'
-        }}>
-          VAULT ZERO
-        </div>
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{
             display: 'inline-flex',
@@ -1743,45 +1444,6 @@ print("Result:", response.data)`,
         margin: '0 auto',
         boxSizing: 'border-box'
       }}>
-        {/* Developer SDK Relatable Watermarks */}
-        <div style={{
-          position: 'absolute',
-          top: 18,
-          right: 24,
-          fontSize: 10,
-          fontFamily: 'monospace',
-          letterSpacing: '1px',
-          color: isDark ? 'rgba(56, 189, 248, 0.45)' : 'rgba(2, 132, 199, 0.4)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 6,
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0
-        }}>
-          <Code2 size={12} />
-          <span>npm i @integratelayer/sdk // pip install integrate-ai</span>
-        </div>
-
-        <div style={{
-          position: 'absolute',
-          top: 35,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: 'clamp(50px, 9vw, 120px)',
-          fontWeight: 900,
-          letterSpacing: '-5px',
-          textTransform: 'uppercase',
-          color: 'transparent',
-          WebkitTextStroke: isDark ? '1px rgba(56, 189, 248, 0.05)' : '1px rgba(2, 132, 199, 0.04)',
-          whiteSpace: 'nowrap',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          fontFamily: 'monospace'
-        }}>
-          DEVELOPER SDK
-        </div>
         <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <div style={{
             display: 'inline-flex',
@@ -1902,7 +1564,7 @@ print("Result:", response.data)`,
           position: 'relative',
           overflow: 'hidden'
         }}>
-          {/* Creative Gateway Radar / Sonar Watermark */}
+          {/* Creative Gateway Radar / Sonar Pattern */}
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 0 }}>
             <svg width="600" height="600" viewBox="0 0 600 600" fill="none" style={{ opacity: isDark ? 0.35 : 0.2 }}>
               <circle cx="300" cy="300" r="100" stroke={isDark ? '#4ade80' : '#007007'} strokeWidth="1" strokeDasharray="4 4" />
@@ -1912,25 +1574,6 @@ print("Result:", response.data)`,
               <line x1="300" y1="0" x2="300" y2="600" stroke={isDark ? '#4ade80' : '#007007'} strokeWidth="0.75" />
               <circle cx="300" cy="300" r="4" fill={isDark ? '#4ade80' : '#007007'} />
             </svg>
-          </div>
-
-          <div style={{
-            position: 'absolute',
-            bottom: -20,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            fontSize: 'clamp(50px, 11vw, 130px)',
-            fontWeight: 900,
-            letterSpacing: '-5px',
-            color: 'transparent',
-            WebkitTextStroke: isDark ? '1px rgba(74, 222, 128, 0.07)' : '1px rgba(0, 112, 7, 0.05)',
-            whiteSpace: 'nowrap',
-            userSelect: 'none',
-            pointerEvents: 'none',
-            zIndex: 0,
-            fontFamily: 'monospace'
-          }}>
-            LAUNCH READY
           </div>
 
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, margin: '0 0 16px', letterSpacing: '-1px', position: 'relative', zIndex: 1 }}>
