@@ -247,18 +247,18 @@ print("Result:", response.data)`,
       position: 'relative',
       overflowX: 'hidden'
     }}>
-      {/* Global Architectural Blueprint Grid & Marginal Circuit Bus Watermarks */}
+      {/* Global Architectural Blueprint Grid */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ opacity: isDark ? 0.45 : 0.55 }}>
           <defs>
-            <pattern id="archGrid" width="64" height="64" patternUnits="userSpaceOnUse">
+            <pattern id={isDark ? 'archGridDark' : 'archGridLight'} width="64" height="64" patternUnits="userSpaceOnUse">
               <path d="M 64 0 L 0 0 0 64" fill="none" stroke={isDark ? 'rgba(255,255,255,0.04)' : 'rgba(15,23,42,0.04)'} strokeWidth="1" />
               {/* Vertex Crosshair Tick (+) */}
               <path d="M -5 0 L 5 0 M 0 -5 L 0 5" stroke={isDark ? 'rgba(74,222,128,0.25)' : 'rgba(0,112,7,0.22)'} strokeWidth="1" />
               <circle cx="32" cy="32" r="0.75" fill={isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'} />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#archGrid)" />
+          <rect width="100%" height="100%" fill={isDark ? 'url(#archGridDark)' : 'url(#archGridLight)'} />
         </svg>
 
         {/* Ambient Radial Vignette Masks */}
@@ -428,23 +428,7 @@ print("Result:", response.data)`,
         }} />
 
         {/* Hero Architectural Giant Typographic Watermark */}
-        <div style={{
-          position: 'absolute',
-          top: 60,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: 'clamp(70px, 14vw, 160px)',
-          fontWeight: 900,
-          letterSpacing: '-6px',
-          textTransform: 'uppercase',
-          color: 'transparent',
-          WebkitTextStroke: isDark ? '1.5px rgba(74, 222, 128, 0.07)' : '1.5px rgba(0, 112, 7, 0.05)',
-          whiteSpace: 'nowrap',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          fontFamily: 'monospace'
-        }}>
+        <div className="hero-wireframe-watermark">
           INTEGRATE
         </div>
 
@@ -482,14 +466,7 @@ print("Result:", response.data)`,
           zIndex: 1
         }}>
           Connect once.{' '}
-          <span style={{
-            background: isDark
-              ? 'linear-gradient(135deg, #4ade80 0%, #38bdf8 50%, #818cf8 100%)'
-              : 'linear-gradient(135deg, #007007 0%, #0284c7 60%, #4338ca 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            display: 'inline-block'
-          }}>
+          <span className="hero-gradient-text">
             Empower every AI agent.
           </span>
         </h1>
